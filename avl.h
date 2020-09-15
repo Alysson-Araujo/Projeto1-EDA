@@ -24,9 +24,7 @@ private:
     Node<Tkey,Tvalue>* leftRight(Node<Tkey,Tvalue>* no);
 
     Node<Tkey,Tvalue>* rightLeft(Node<Tkey,Tvalue>* no);
-    // Verfica se a árvore está vazia.
-    // Talvez ele se torne público
-    bool avl_empty(Node<Tkey,Tvalue>* no);
+    
     
     //Cria um novo nó que será incluido na Árvore AVL.
     Node<Tkey,Tvalue>* create_node(Tkey key, Tvalue value);
@@ -37,13 +35,22 @@ public:
     
     //deletará todos os nós presente na arvore, passando a arvore a partir da sua raiz.
     Node<Tkey,Tvalue>* avl_delete(Node<Tkey,Tvalue> *no);
-    // Impressão da árvore no estilo de ordem simétrica.
-    void avl_in_ordem(Node<Tkey,Tvalue> *no); 
+    
+    // Impressão da árvore em pre-ordem (raiz->esq->dir).
+    void avl_pre_ordem(Node<Tkey,Tvalue> *no);
+    // Impressão da árvore em pos-ordem (esq->dir->raiz).
+    void avl_pos_ordem(Node<Tkey,Tvalue> *no);
+    // Impressão da árvore no estilo de ordem simétrica (esq->raiz->dir).
+    void avl_in_ordem(Node<Tkey,Tvalue> *no);
+
     // irá pegar a chave de um nó e retornará o seu valor correspondente.
     // RValue = Return Value
     Tvalue get_key_RValue(Node<Tkey,Tvalue> *no, Tkey key);
     // Faz a inserção de um nó na árvore AVL, onde nesse nó tera uma chave um valor do tipo string
     Node* avl_insert(Node *no,Tkey key, Tvalue value);
+
+    //retorna true caso a arvore esteja vazia e false caso contrário
+    bool avl_empty(Node<Tkey,Tvalue>* no);
 
 };
 
@@ -190,8 +197,31 @@ Node<Tkey,Tvalue>* avl_balance(Node<Tkey,Tvalue> *no, Tkey key){
 }
 
 
+//##############################################################
 
-template<typename Tkey, typename Tvalue>
+//      Funções para percorrer a árvore em ordem definida
+
+template<typename Tkey, typename Tvalue>        //(raiz,esq,dir)
+void avl_pre_ordem(Node<Tkey,Tvalue> *no){
+    if (no != nullptr) {        
+        std::cout << "Chave " << no->key << ", " << "Valor "<< no->value << std::endl;
+        avl_pre_ordem(no ->left);
+        avl_pre_ordem(no ->right);
+    }
+
+}
+
+template<typename Tkey, typename Tvalue>        //(esq,dir,raiz)
+void avl_pos_ordem(Node<Tkey,Tvalue> *no){
+    if (no != nullptr) {
+        avl_pos_ordem(no ->left);
+        avl_pos_ordem(no ->right);
+        std::cout << "Chave " << no->key << ", " << "Valor "<< no->value << std::endl;
+    }
+}
+
+
+template<typename Tkey, typename Tvalue>       //(esq,raiz,dir)
 void avl_in_ordem(Node<Tkey,Tvalue> *no){
     if (no != nullptr) {
         avl_in_ordem(no ->left);
@@ -199,6 +229,18 @@ void avl_in_ordem(Node<Tkey,Tvalue> *no){
         avl_in_ordem(no ->right);
     }
 }
+
+
+//############################################################
+
+//                Funções auxiliares
+
+template<typename Tkey, typename Tvalue>    //
+bool avl_empty(Node<Tkey,Tvalue>* no){
+    return(no == NULL);
+}
+
+//############################################################
 
 /*
 Comentei pq ainda não sei se uso essa forma para deletar a árvore ou uso outra forma
@@ -215,4 +257,3 @@ Node<Tkey,Tvalue>* avl_delete(Node<Tkey,Tvalue>* no){
     return nullptr;
 }
 */
-
