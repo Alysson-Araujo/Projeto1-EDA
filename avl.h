@@ -199,7 +199,7 @@ Node<Tkey,Tvalue>* avl_balance(Node<Tkey,Tvalue> *no, Tkey key){
 
 //##############################################################
 
-//      Funções para percorrer a árvore em ordem definida
+//      Funções para percorrer e imprimir a árvore em ordem definida
 
 template<typename Tkey, typename Tvalue>        //(raiz,esq,dir)
 void avl_pre_ordem(Node<Tkey,Tvalue> *no){
