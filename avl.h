@@ -235,9 +235,20 @@ void avl_in_ordem(Node<Tkey,Tvalue> *no){
 
 //                Funções auxiliares
 
-template<typename Tkey, typename Tvalue>    //
+template<typename Tkey, typename Tvalue>    // retorna boleano, true caso a árvore esteja vazia
 bool avl_empty(Node<Tkey,Tvalue>* no){
     return(no == NULL);
+}
+
+
+template<typename Tkey, typename Tvalue>    //retorna a altura do nó, 0 caso a árvore esteja vazia
+int avl_height(Node<Tkey,Tvalue> *no){
+    
+    if (no == NULL)
+        return 0;
+    else
+        return node->height;
+
 }
 
 //############################################################
