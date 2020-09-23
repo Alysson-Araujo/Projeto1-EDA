@@ -1,5 +1,5 @@
 #include <iostream>
-//#include "avl.h"    <-  Comentado para testes no menu
+#include "avl.h"   // <-  Comentado para testes no menu
 #include "pessoa.h"     
 using std::cout;
 using std::endl;

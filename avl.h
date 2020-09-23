@@ -30,6 +30,7 @@ private:
     Node<Tkey,Tvalue>* create_node(Tkey key, Tvalue value);
 
 public:
+    
     avl(/* args */); //cria a árvore
     ~avl();
     
@@ -47,7 +48,7 @@ public:
     // RValue = Return Value
     Tvalue get_key_RValue(Node<Tkey,Tvalue> *no, Tkey key);
     // Faz a inserção de um nó na árvore AVL, onde nesse nó tera uma chave um valor do tipo string
-    Node* avl_insert(Node *no,Tkey key, Tvalue value);
+    Node<Tkey,Tvalue>* avl_insert(Node<Tkey,Tvalue> *no,Tkey key, Tvalue value);
 
     //retorna true caso a arvore esteja vazia e false caso contrário
     bool avl_empty(Node<Tkey,Tvalue>* no);
@@ -74,11 +75,11 @@ avl<Tkey,Tvalue>::~avl(){
 template<typename Tkey, typename Tvalue>
 Node<Tkey,Tvalue>* create_node(Tkey &key, Tvalue &value){  
     Node<Tkey,Tvalue> *node = new Node<Tkey,Tvalue>;
-    this.node->key = key;
-    this.node->value = value;
-    this.node->left = nullptr;
-    this.node->right = nullptr;
-    this.node->height = 1;
+    node->key = key;
+    node->value = value;
+    node->left = nullptr;
+    node->right = nullptr;
+    node->height = 1;
     return node;
 }
 
@@ -89,7 +90,7 @@ Node<Tkey,Tvalue>* create_node(Tkey &key, Tvalue &value){
 // Faz uma rotação a direita
 template<typename Tkey, typename Tvalue>
 Node<Tkey,Tvalue> *rightRotation(Node<Tkey,Tvalue> *no){
-        Node* aux;
+        Node<Tkey,Tvalue>* aux;
         aux = no->left;
         no->left = aux->right;
         aux->right = no;
@@ -247,7 +248,7 @@ int avl_height(Node<Tkey,Tvalue> *no){
     if (no == NULL)
         return 0;
     else
-        return node->height;
+        return no->height;
 
 }
 
