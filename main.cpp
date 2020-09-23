@@ -1,6 +1,6 @@
 #include <iostream>
 //#include "avl.h"    <-  Comentado para testes no menu
-//#include "pessoa.h"     
+#include "pessoa.h"     
 using std::cout;
 using std::endl;
 using std::cin;
@@ -165,7 +165,12 @@ void menu(){                           //realiza as funçoes do menu
 
 int main(){
     
-    menu();
+    //menu();
     
+    Pessoa eu(12345678910,"João", "Almir", 17,10,2000, "Guarulhos");
+
+    cout << eu.formato_cpf() << endl;
+    
+    eu.imprime_csv();
     
 }
