@@ -1,4 +1,4 @@
-#include <iostream>
+    #include <iostream>
 #include "node.h"
 #include "pessoa.h"
 using namespace std;
@@ -9,7 +9,7 @@ class avl
 {
 private:
     /* data */
-    Node<Tkey>* root;
+    Node<Tkey> *raiz;
     // Calcula a altura que a Árvore possui.
     int avl_height(Node<Tkey> *no);
     // Vai calcular o fator de balanceamento da árvore.
@@ -29,14 +29,14 @@ private:
     
     Node<Tkey>* clear(Node<Tkey>* no);
     
-
+    
 
     //Cria um novo nó que será incluido na Árvore AVL.
-    Node<Tkey>* create_node(Tkey key);
+    Node<Tkey>* create_node(Tkey key, Pessoa pes);
 
 public:
     
-    avl(Pessoa x); //cria a árvore
+    avl(Tkey key,Pessoa x); //cria a árvore
     ~avl();
     
     
@@ -48,69 +48,36 @@ public:
     void avl_pre_ordem(Node<Tkey> *no);
     // Impressão da árvore em pos-ordem (esq->dir->raiz).
     void avl_pos_ordem(Node<Tkey> *no);
-    // Impressão da árvore no estilo de ordem simétrica (esq->raiz->dir).
-    void avl_in_ordem(Node<Tkey> *no);
-
-    Pessoa get_pessoa(Node<Tkey> *no);
-
-    Node<Tkey>* get_raiz();
-
-    Node<Tkey>* search(Tkey key);
-
+    // Impressão da árvore no estilo de ordemmain.cpp:
     // Faz a inserção de um nó na árvore AVL, onde nesse nó tera uma chave um valor do tipo string
-    Node<Tkey>* avl_insert(Node<Tkey> *no,Tkey key);
 
+    Node<Tkey>* avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes);
+    
+    void mainInsert(Tkey key, Pessoa pes);
+
+    
+    Node<Tkey>* avl_search(Node<Tkey> *node,Tkey key);
+
+    void insertMain(Tkey key, Pessoa pes);
+    
     //retorna true caso a arvore esteja vazia e false caso contrário
     bool avl_empty();
 
+    Node<Tkey>* get_raiz();
 
 };
 
 
 template<typename Tkey>
-avl<Tkey>::avl(Pessoa x){
+avl<Tkey>::avl(Tkey key,Pessoa x){
     Node<Tkey> *NewNode = new Node<Tkey>;
+    NewNode->key = key;
     NewNode->pes = x;
     NewNode->left = nullptr;
     NewNode->right = nullptr;
     NewNode->height = 1;
-    root = NewNode;
+    raiz = NewNode;
 }
-/*
-RBTree ::RBTree()
-{
-    nil = new Node{};
-    nil->key = 0;
-    nil->left = nil->right = nil->parent = nil;
-    nil->color = BLACK;
-    root = nil;
-}
-
-// Destructor
-RBTree ::~RBTree(){   
-    clear(root);
-        
-    root = nullptr;
-        
-}
-
-
-Node* RBTree::clear(Node *node){                    //remove a arvore enquanto desaloca memória
-    
-
-    if (node != nil){
-
-        node->left = clear(node->left);
-        node->right =clear(node->right);
-        cout << "Removendo chave " << node->key << endl;
-        delete node;
-
-    }
-    return nil;
-}
-
-
-*/
 
 
 template<typename Tkey>
@@ -120,7 +87,7 @@ Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
 
         no->left = clear(no->left);
         no->right =clear(no->right);
-        cout << "Removendo chave " << no->pes.get_nome() << endl;
+        cout << "\nRemovendo chave " << no->pes.get_nome() << endl;
         delete no;
 
     }
@@ -130,9 +97,9 @@ Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
 
 template<typename Tkey>
 avl<Tkey>::~avl(){
-    clear(root);
+    clear(raiz);
 
-    root = nullptr;
+    raiz = nullptr;
 }
 
 template<typename Tkey>
@@ -146,6 +113,10 @@ Node<Tkey>* create_node(Tkey &key, Pessoa pes){
     return node;
 }
 
+template<typename Tkey>
+void avl<Tkey>::mainInsert(Tkey key, Pessoa pes){
+   Node<Tkey>* namess =  avl_insert(raiz, key, pes);
+}
 
 
 // ######################################### Rotações e max #########################################
@@ -164,15 +135,35 @@ Node<Tkey> *rightRotation(Node<Tkey> *no){
         // ###### ############################ ######
 
         return aux;
+}
+
+template<typename Tkey>
+Node<Tkey> *leftRotation(Node<Tkey> *no){
+        Node<Tkey> *aux = no->right;
+        no->right = aux->left;
+        aux->left = no;
+        // atualiza alturas dos nós
+        no->height = 1 + max(avl_height(no->left),
+                            avl_height(no->right));
+        aux->height = 1 + max(avl_height(aux->left),
+                            avl_height(aux->right));
+        return aux; // nova raiz
+}
+
+    //Rotação dupla a esquerda.
+    template<typename Tkey>
+    Node<Tkey>* rightLeft(Node<Tkey>* no){
+        no->right = rightRotation(no->right);
+        return leftRotation(no);
     }
 
+    //Rotação dupla a esquerda.
+    template<typename Tkey>
+    Node<Tkey>* leftRight(Node<Tkey>* no){
+        no->left = leftRotation(no->left);
+        return rightRotation(no);
+    }
 
-//Rotação dupla a esquerda.
-template<typename Tkey>
-Node<Tkey>* rightLeft(Node<Tkey>* no){
-    no->right = rightRotation(no->right);
-    return leftRotation(no);
-}
 
 // ##################################################################################################
 
@@ -297,21 +288,15 @@ void avl_in_ordem(Node<Tkey> *no){
 //############################################################
 
 //                Funções auxiliares
-template<typename Tkey>
-Pessoa get_pessoa(Node<Tkey> *no){
-    return no->pes;
-}
 
-/*
-template<typename Tkey>
-Node<Tkey>* get_raiz(){
-    return root;
+template <typename Tkey>
+Node<Tkey>* avl<Tkey>::get_raiz(){
+    return raiz;
 }
-*/
 
 template<typename Tkey>    // retorna boleano, true caso a árvore esteja vazia
 bool avl<Tkey>::avl_empty(){
-    return( root == NULL);
+    return( raiz == NULL);
 }
 
 
@@ -324,17 +309,18 @@ int avl_height(Node<Tkey> *no){
     else
         return no->height;
 }
-
+/*
 template<typename Tkey>
 Node<Tkey>* avl<Tkey>::search(Tkey key){
     // se a chave estiver na raiz, retorna o valor imediatamente
-    if(root->key==key){
-        return root;    //complexidade O(1)
+    if(raiz->pes.get_nome()==key){
+        return raiz;    //complexidade O(1)
     }
     
+    
     //A ideia desse método 
-    Node<Tkey>* aux_minus = root->left; //Guarda o lado esquerdo da árvore
-    Node<Tkey>* aux_plus = root->right; // Guarda o lado direito da árvore
+    Node<Tkey>* aux_minus = raiz->left; //Guarda o lado esquerdo da árvore
+    Node<Tkey>* aux_plus = raiz->right; // Guarda o lado direito da árvore
     // fará a busca para o lado esquerdo da árvore caso a chave desejada seja menor do que a chave do no
     if(key <= aux_minus->key){// chave está no lado esquerdo da árvore
         while (aux_minus!=nullptr){
@@ -363,11 +349,62 @@ Node<Tkey>* avl<Tkey>::search(Tkey key){
         }
     }
 
+
     
     cout << "A pessoa não foi encontrada.";
     return NULL;
 }
+*/
 
+template<typename Tkey>
+Node<Tkey>* avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
+
+    if(node == NULL)                            //retorna NULL se não encontrar
+        return NULL;
+
+    if(key < node->key)
+        return avl_search(node->left, key);
+
+    else if(key > node->key)
+        return avl_search(node->right, key);
+    
+    else
+        return node;
+
+}
+
+
+
+template<typename Tkey>
+Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes){
+     /**
+     * Caso base: na primeira verificação, se o no == nullptr retornar true, significa que estamos na raiz e
+     * ela está vazia, logo iremos colocar os valores nela.
+     * 
+     * Se for na segunda ou posteriores verificações, significa que iremos adicionar uma nova folha com os 
+     * valores passados nos parâmetros da função.
+     */
+    if(no == nullptr){
+        return create_node(key, pes);
+    }
+    // Vereficará se o valor da key passada é maior que a chave do nó atual 
+        if(key < no->key){
+            no->left = avl_insert(no->left, key, pes);
+            //Será verificado se é preciso fazer alguma rotação para deixar balanceada. 
+            no = avl_balance(no, key);
+        }
+        // Vereficará se o valor da key passada é menor que a chave do nó atual 
+        if(key > no->key){
+            no->right = avl_insert(no->right, key, pes);
+            //Será verificado se é preciso fazer alguma rotação para deixar balanceada.
+            no = avl_balance(no, key);
+            // quando a key já está presente na árvore.
+        }
+    // Vai corrigir a altura da árvore
+    no->height = 1 + max(avl_height(no->left), avl_height(no->right));
+    
+    return no;
+}
 
 
 

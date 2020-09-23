@@ -1,5 +1,5 @@
 #include <iostream>
-#include "avl.h"   // <-  Comentado para testes no menu
+#include "avl.h" 
 #include "pessoa.h"     
 using std::cout;
 using std::endl;
@@ -165,19 +165,30 @@ void menu(){                           //realiza as funçoes do menu
 
 int main(){
     
+
+
     //menu();
     
-    Pessoa eu(12345678910,"João", "Almir", 17,10,2000, "Guarulhos");
-
-    //cout << eu.formato_cpf() << endl;
+    Pessoa eu(12345678910,"João", "Almir", 17,10,2020, "Guarulhos");
+    Pessoa outro(82945178510,"Fulano", "Silva",17,10,2010,  "Rio de janeiro");
+    Pessoa corona(12345678910,"Corona", "Virus", 27,2,2020, "Mundo todo");
+    Pessoa falstao(12345678910,"Falstão", "tão", 9,9,1961, "Rio de janeiro");
+    Pessoa seu(12345678910,"Seu", "Creysson", 1,5,1975, "Lugar lá");
+    Pessoa atilio(92541608361,"Atilio", "Luis", 20,10,1985, "Fortaleza");
     
-    //eu.imprime_csv();
-    
-    avl<long long int> avl1(eu);
-
-    if(avl1.search(12345678910) == NULL)
-        cout << "não achou";
+    //avl<long long int> cpf_avl(eu.get_cpf(), eu);
+    //avl<string> nome_avl(eu.get_nome(), eu);
+    avl<string> teste(eu.get_nome(),eu);
+    //avl<int> datanasc_avl(eu.get_nasc_ano(), eu);
+        ///teste.mainInsert(outro.get_nome(), outro); 
+        teste.avl_insert(teste.get_root(),outro.get_nome(), outro); 
+        //teste.avl_insert(corona.get_nome(), corona); 
+        //teste.avl_insert(falstao.get_nome(), falstao); 
+        //teste.avl_insert(seu.get_nome(), seu);
+        //teste.avl_insert(atilio.get_nome(), atilio)
+        //teste.avl_insert(teste.get_raiz(),eu.get_nome(),eu);
         
-    else
-        cout << "achou";
+
+    return 0;
+
 }
