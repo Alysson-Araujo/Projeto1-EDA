@@ -63,7 +63,7 @@ using std::to_string;
 
         string aux = to_string(cpf);    //converte de int para string e guarda no aux
 
-        int tam = 14;         // cria int com tamanho 14
+        int tam = 14;                   // cria int com tamanho 14
 
         char fmt[tam];                  //cria um vetor de char livre para colocar os numeros, pontos e traço
 
