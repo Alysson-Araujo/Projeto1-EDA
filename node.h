@@ -1,13 +1,14 @@
 #ifndef NODE_H
 #define NODE_H
+#include "pessoa.h"
 
-template<typename Tkey, typename Tvalue>
+template<typename Tkey>
 struct Node{
         Tkey key;
-        Tvalue value;
+        Pessoa pes;
         int height;
-        Node<Tkey,Tvalue>* left;
-        Node<Tkey,Tvalue>* right;
+        Node<Tkey>* left;
+        Node<Tkey>* right;
 
 };
 

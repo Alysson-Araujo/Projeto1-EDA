@@ -1,13 +1,12 @@
 #include <iostream>
 #include "pessoa.h"
+#include <string>
 
-using std::string;
-using std::cout;
-using std::endl;
-using std::to_string;
+using namespace std;;
 
+    Pessoa::Pessoa(){}
 
-    Pessoa::Pessoa(long int cpf, string nome, string sobrenome, int nasc_dia, int nasc_mes, int nasc_ano, string cidade_nasc){
+    Pessoa::Pessoa(long long int cpf, string nome, string sobrenome, int nasc_dia, int nasc_mes, int nasc_ano, string cidade_nasc){
 
         this->cpf = cpf;
         this->nome = nome;
@@ -63,13 +62,11 @@ using std::to_string;
 
         string aux = to_string(cpf);    //converte de int para string e guarda no aux
 
-        int tam = 14;                   // cria int com tamanho 14
-
-        char fmt[tam];                  //cria um vetor de char livre para colocar os numeros, pontos e traço
+        char fmt[14];                  //cria um vetor de char livre para colocar os numeros, pontos e traço
 
         int index = 0;                  //indice auxiliar
         
-        for(int i = 0; i < tam; i++){
+        for(int i = 0; i < 14; i++){
 
             if(i == 3 || i == 7)        //na posição 3 e 7 insere ponto
                 fmt[i] = '.';
@@ -93,7 +90,7 @@ using std::to_string;
 
 
     //gets
-    long int Pessoa::get_cpf(){
+    long long int Pessoa::get_cpf(){
         return cpf;
     }
 

@@ -169,8 +169,15 @@ int main(){
     
     Pessoa eu(12345678910,"João", "Almir", 17,10,2000, "Guarulhos");
 
-    cout << eu.formato_cpf() << endl;
+    //cout << eu.formato_cpf() << endl;
     
-    eu.imprime_csv();
+    //eu.imprime_csv();
     
+    avl<long long int> avl1(eu);
+
+    if(avl1.search(12345678910) == NULL)
+        cout << "não achou";
+        
+    else
+        cout << "achou";
 }
