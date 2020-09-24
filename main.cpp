@@ -175,18 +175,37 @@ int main(){
     Pessoa falstao(12345678910,"Falstão", "tão", 9,9,1961, "Rio de janeiro");
     Pessoa seu(12345678910,"Seu", "Creysson", 1,5,1975, "Lugar lá");
     Pessoa atilio(92541608361,"Atilio", "Luis", 20,10,1985, "Fortaleza");
+    Pessoa alysson(92541608361,"Alysson", "Luis", 20,10,1985, "Fortaleza");
     
     //avl<long long int> cpf_avl(eu.get_cpf(), eu);
     //avl<string> nome_avl(eu.get_nome(), eu);
-    avl<string> teste(eu.get_nome(),eu);
-    //avl<int> datanasc_avl(eu.get_nasc_ano(), eu);
-        ///teste.mainInsert(outro.get_nome(), outro); 
-        teste.avl_insert(teste.get_root(),outro.get_nome(), outro); 
-        //teste.avl_insert(corona.get_nome(), corona); 
-        //teste.avl_insert(falstao.get_nome(), falstao); 
-        //teste.avl_insert(seu.get_nome(), seu);
-        //teste.avl_insert(atilio.get_nome(), atilio)
-        //teste.avl_insert(teste.get_raiz(),eu.get_nome(),eu);
+    avl<int> teste(2484,eu);
+    Node<int>* raiz1=nullptr;
+    
+    
+
+    raiz1 = teste.avl_insert(raiz1, 60 , corona); 
+    raiz1 = teste.avl_insert(raiz1, 50 , falstao); 
+    raiz1 = teste.avl_insert(raiz1, 40 , seu);
+    raiz1 = teste.avl_insert(raiz1, 30  , atilio);
+    raiz1 = teste.avl_insert(raiz1, 20 ,  alysson);
+    raiz1 = teste.avl_insert(raiz1, 10 ,  alysson);
+    raiz1 = teste.avl_insert(raiz1, 60 ,  alysson);
+    raiz1 = teste.avl_insert(raiz1, 60 ,  alysson);
+    raiz1 = teste.avl_insert(raiz1, 40 ,  alysson);
+    teste.avl_pre_ordem(raiz1);
+    raiz1 = teste.clear(raiz1);
+    
+
+    //teste.mainInsert(teste.get_raiz(),outro.get_nome(), outro); 
+    //teste.mainInsert(14, corona); 
+    //teste.mainInsert(53, falstao); 
+    //teste.mainInsert(40, seu);
+    //teste.mainInsert(12, atilio);
+    //teste.mainInsert(1, alysson);
+    //teste.avl_pre_ordem(teste.get_raiz());
+
+    //teste.mainInsert(teste.get_raiz(),eu.get_nome(),eu);
         
 
     return 0;

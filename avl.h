@@ -1,4 +1,7 @@
-    #include <iostream>
+#ifndef AVL_H
+#define AVL_H
+
+#include <iostream>
 #include "node.h"
 #include "pessoa.h"
 using namespace std;
@@ -27,7 +30,6 @@ private:
 
     Node<Tkey>* rightLeft(Node<Tkey>* no);
     
-    Node<Tkey>* clear(Node<Tkey>* no);
     
     
 
@@ -39,7 +41,7 @@ public:
     avl(Tkey key,Pessoa x); //cria a árvore
     ~avl();
     
-    
+    Node<Tkey>* clear(Node<Tkey>* no);
 
     //deletará todos os nós presente na arvore, passando a arvore a partir da sua raiz.
     //Node<Tkey>* avl_delete(Node<Tkey> *no);
@@ -87,23 +89,23 @@ Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
 
         no->left = clear(no->left);
         no->right =clear(no->right);
-        cout << "\nRemovendo chave " << no->pes.get_nome() << endl;
+        cout << "\nRemovendo chave " << no->key << endl;
         delete no;
 
     }
-    return NULL;
+    return nullptr;
 
 }
 
 template<typename Tkey>
 avl<Tkey>::~avl(){
-    clear(raiz);
+    raiz= clear(raiz);
 
-    raiz = nullptr;
+
 }
 
 template<typename Tkey>
-Node<Tkey>* create_node(Tkey &key, Pessoa pes){  
+Node<Tkey>* avl<Tkey>::create_node(Tkey key, Pessoa pes){  
     Node<Tkey> *node = new Node<Tkey>;
     node->key = key;
     node->pes = pes;
@@ -115,7 +117,7 @@ Node<Tkey>* create_node(Tkey &key, Pessoa pes){
 
 template<typename Tkey>
 void avl<Tkey>::mainInsert(Tkey key, Pessoa pes){
-   Node<Tkey>* namess =  avl_insert(raiz, key, pes);
+    avl_insert(raiz, key, pes);
 }
 
 
@@ -123,22 +125,22 @@ void avl<Tkey>::mainInsert(Tkey key, Pessoa pes){
 
 // Faz uma rotação a direita
 template<typename Tkey>
-Node<Tkey> *rightRotation(Node<Tkey> *no){
+Node<Tkey>* avl<Tkey>::rightRotation(Node<Tkey> *no){
         Node<Tkey>* aux;
         aux = no->left;
         no->left = aux->right;
         aux->right = no;
         
         // ###### atualzará as alturas dos nós ######
-        no->height = max(avl_height(no->left), avl_height(no->right)) + 1;
-        aux->height = max(avl_height(aux->left), avl_height(aux->right)) + 1;
+        no->height = std::max(avl_height(no->left), avl_height(no->right)) + 1;
+        aux->height = std::max(avl_height(aux->left), avl_height(aux->right)) + 1;
         // ###### ############################ ######
 
         return aux;
 }
 
 template<typename Tkey>
-Node<Tkey> *leftRotation(Node<Tkey> *no){
+Node<Tkey>* avl<Tkey>::leftRotation(Node<Tkey> *no){
         Node<Tkey> *aux = no->right;
         no->right = aux->left;
         aux->left = no;
@@ -150,16 +152,16 @@ Node<Tkey> *leftRotation(Node<Tkey> *no){
         return aux; // nova raiz
 }
 
-    //Rotação dupla a esquerda.
+    //Rotação dupla a esquerda. // Acho que os nomes estão trocados
     template<typename Tkey>
-    Node<Tkey>* rightLeft(Node<Tkey>* no){
+    Node<Tkey>* avl<Tkey>::rightLeft(Node<Tkey>* no){
         no->right = rightRotation(no->right);
         return leftRotation(no);
     }
 
     //Rotação dupla a esquerda.
     template<typename Tkey>
-    Node<Tkey>* leftRight(Node<Tkey>* no){
+    Node<Tkey>* avl<Tkey>::leftRight(Node<Tkey>* no){
         no->left = leftRotation(no->left);
         return rightRotation(no);
     }
@@ -174,7 +176,7 @@ Node<Tkey> *leftRotation(Node<Tkey> *no){
 // esquerdo.  
 // O fator de balanceamento tem que ser somente -1, 0 ou 1.
 template<typename Tkey>
-int balancing_factor (Node<Tkey> *node) {
+int avl<Tkey>::balancing_factor (Node<Tkey> *node) {
      if(node == nullptr ){
         return 0;
     }
@@ -186,7 +188,7 @@ int balancing_factor (Node<Tkey> *node) {
 // regulada
 // O fator de balanceamento tem que ser somente -1, 0 ou 1.
 template<typename Tkey> 
-Node<Tkey>* avl_balance(Node<Tkey> *no, Tkey key){
+Node<Tkey>* avl<Tkey>::avl_balance(Node<Tkey> *no, Tkey key){
     // Rotação a direita. 
     // suponha que existe um nó desbalanceado b que tem um filho esquerdo x e o x tem  um filho esquerdo y, 
     // deixando o fator de balanceamento de b ser igual a -2. Para fazer o balanceamento, será preciso:
@@ -246,7 +248,7 @@ Node<Tkey>* avl_balance(Node<Tkey> *no, Tkey key){
     */
     else if(balancing_factor(no) > 1 && key < no->right->key)
         return rightLeft(no);       
-
+    
     return no;
 }
 
@@ -302,7 +304,7 @@ bool avl<Tkey>::avl_empty(){
 
 
 template<typename Tkey>    //retorna a altura do nó, 0 caso a árvore esteja vazia
-int avl_height(Node<Tkey> *no){
+int avl<Tkey>::avl_height(Node<Tkey> *no){
     
     if (no == NULL)
         return 0;
@@ -391,22 +393,36 @@ Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes){
         if(key < no->key){
             no->left = avl_insert(no->left, key, pes);
             //Será verificado se é preciso fazer alguma rotação para deixar balanceada. 
-            no = avl_balance(no, key);
+            no = avl_balance(no, key); //*** ocorreu Problema no balanceamento
         }
+        
+        
+        
+        
         // Vereficará se o valor da key passada é menor que a chave do nó atual 
         if(key > no->key){
             no->right = avl_insert(no->right, key, pes);
             //Será verificado se é preciso fazer alguma rotação para deixar balanceada.
-            no = avl_balance(no, key);
+            no = avl_balance(no, key); //*** ocorreu Problema no balanceamento
             // quando a key já está presente na árvore.
         }
     // Vai corrigir a altura da árvore
-    no->height = 1 + max(avl_height(no->left), avl_height(no->right));
+    no->height = 1 + std::max(avl_height(no->left), avl_height(no->right));
     
+    
+
     return no;
 }
 
+template<typename Tkey>        //(raiz,esq,dir)
+void avl<Tkey>::avl_pre_ordem(Node<Tkey> *no){
+    if (no != nullptr) {        
+        cout << "Chave " << no->key << endl;
+        avl_pre_ordem(no ->left);
+        avl_pre_ordem(no ->right);
+    }
 
+}
 
 
 
@@ -427,3 +443,9 @@ Node<Tkey>* avl_delete(Node<Tkey>* no){
     return nullptr;
 }
 */
+#endif
+
+
+
+
+
