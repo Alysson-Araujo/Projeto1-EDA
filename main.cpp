@@ -1,6 +1,8 @@
 #include <iostream>
 #include "avl.h" 
 #include "pessoa.h"     
+#include <fstream>
+#include <string>
 using std::cout;
 using std::endl;
 using std::cin;
@@ -45,9 +47,7 @@ void menu(){                           //realiza as funçoes do menu
       
     
         
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
+        
         menu(); //volta para o menu
         break;
 
@@ -55,27 +55,20 @@ void menu(){                           //realiza as funçoes do menu
 
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
+        
         menu(); //volta para o menu
         break;
     
     case 3:                             //Remover pessoa pelo CPF
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
+       
         menu(); //volta para o menu
         break;
 
     case 4:                             //Remover pessoa pela data de nasc
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
         menu(); //volta para o menu
         break;
     
@@ -83,9 +76,7 @@ void menu(){                           //realiza as funçoes do menu
 
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
+        
         menu(); //volta para o menu
         break;
     
@@ -93,9 +84,7 @@ void menu(){                           //realiza as funçoes do menu
     case 6:                             //Percurso em-ordem
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
+      
         menu(); //volta para o menu
         break;
 
@@ -104,9 +93,7 @@ void menu(){                           //realiza as funçoes do menu
 
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
+        
         menu(); //volta para o menu
         break;
     
@@ -114,9 +101,6 @@ void menu(){                           //realiza as funçoes do menu
 
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
         menu(); //volta para o menu
         break;
     
@@ -125,9 +109,6 @@ void menu(){                           //realiza as funçoes do menu
 
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
         menu(); //volta para o menu
         break;
     
@@ -137,9 +118,7 @@ void menu(){                           //realiza as funçoes do menu
 
 
 
-        /*  Inserir raizes no parâmetro futuramente
-            |
-            V    */ 
+        
         menu(); //volta para o menu
         break;
        
@@ -151,7 +130,7 @@ void menu(){                           //realiza as funçoes do menu
         cout<<"Finalizado" << endl;
         break;
 
-    default:                    //numero invalido
+    default:                           //numero invalido
 
         cout << endl <<  "\t \t>>Número inválido<<" << endl;
         menu();
@@ -179,24 +158,39 @@ int main(){
     
     //avl<long long int> cpf_avl(eu.get_cpf(), eu);
     //avl<string> nome_avl(eu.get_nome(), eu);
-    avl<int> teste(2484,eu);
-    Node<int>* raiz1=nullptr;
+    avl<string> teste;
+    Node<string>* raiz1=nullptr;
     
     
-
-    raiz1 = teste.avl_insert(raiz1, 60 , corona); 
-    raiz1 = teste.avl_insert(raiz1, 50 , falstao); 
-    raiz1 = teste.avl_insert(raiz1, 40 , seu);
-    raiz1 = teste.avl_insert(raiz1, 30  , atilio);
-    raiz1 = teste.avl_insert(raiz1, 20 ,  alysson);
-    raiz1 = teste.avl_insert(raiz1, 10 ,  alysson);
-    raiz1 = teste.avl_insert(raiz1, 60 ,  alysson);
-    raiz1 = teste.avl_insert(raiz1, 60 ,  alysson);
-    raiz1 = teste.avl_insert(raiz1, 40 ,  alysson);
-    teste.avl_pre_ordem(raiz1);
-    raiz1 = teste.clear(raiz1);
     
 
+    //raiz1 = teste.avl_insert(raiz1, "Alysson Araújo",  corona); 
+    //raiz1 = teste.avl_insert(raiz1, "João Almir" ,  falstao); 
+    //raiz1 = teste.avl_insert(raiz1, "Rafael Sousa" ,  seu);
+    //raiz1 = teste.avl_insert(raiz1, "Gustavo Santos" ,  atilio);
+    //raiz1 = teste.avl_insert(raiz1, "João Almir" ,  alysson);
+    //raiz1 = teste.avl_insert(raiz1, "Wladimir Tavares" ,  alysson);
+    //raiz1 = teste.avl_insert(raiz1, "Atílio Tavares" ,  alysson);
+    //raiz1 = teste.avl_insert(raiz1, "Alysson Araújo" ,  alysson);
+    //raiz1 = teste.avl_insert(raiz1, "João Almir" ,  alysson);
+    ////raiz1 = teste.avl_insert(raiz1, 50 ,  alysson);
+    //teste.avl_in_ordem(raiz1);
+    ////teste.avl_in_ordem(raiz1);
+    //raiz1 = teste.clear(raiz1);
+    
+    string linha;
+
+    ifstream myfile ("data.csv"); // ifstream = padrão ios:in
+  if (myfile.is_open())
+  {
+    while (! myfile.eof() ) //enquanto end of file for false continua
+    {
+      getline(myfile, linha); // como foi aberto em modo texto(padrão)
+                             //e não binário(ios::bin) pega cada linha
+      cout << linha << endl;
+    }
+    myfile.close();
+  }
     //teste.mainInsert(teste.get_raiz(),outro.get_nome(), outro); 
     //teste.mainInsert(14, corona); 
     //teste.mainInsert(53, falstao); 
@@ -205,7 +199,7 @@ int main(){
     //teste.mainInsert(1, alysson);
     //teste.avl_pre_ordem(teste.get_raiz());
 
-    //teste.mainInsert(teste.get_raiz(),eu.get_nome(),eu);
+    
         
 
     return 0;

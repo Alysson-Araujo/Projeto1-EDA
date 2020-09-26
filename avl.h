@@ -12,7 +12,7 @@ class avl
 {
 private:
     /* data */
-    Node<Tkey> *raiz;
+    
     // Calcula a altura que a Árvore possui.
     int avl_height(Node<Tkey> *no);
     // Vai calcular o fator de balanceamento da árvore.
@@ -30,15 +30,18 @@ private:
 
     Node<Tkey>* rightLeft(Node<Tkey>* no);
     
+    Node<Tkey>* fixup_node(Node<Tkey> *p, Tkey key);
     
-    
+    Node<Tkey>* allocateNode(Tkey key, Pessoa value);
+
+    int balance(Node<Tkey> *node);
 
     //Cria um novo nó que será incluido na Árvore AVL.
     Node<Tkey>* create_node(Tkey key, Pessoa pes);
 
 public:
     
-    avl(Tkey key,Pessoa x); //cria a árvore
+    avl(); //cria a árvore
     ~avl();
     
     Node<Tkey>* clear(Node<Tkey>* no);
@@ -57,7 +60,7 @@ public:
     
     void mainInsert(Tkey key, Pessoa pes);
 
-    
+    void avl_in_ordem(Node<Tkey> *no);
     Node<Tkey>* avl_search(Node<Tkey> *node,Tkey key);
 
     void insertMain(Tkey key, Pessoa pes);
@@ -65,20 +68,16 @@ public:
     //retorna true caso a arvore esteja vazia e false caso contrário
     bool avl_empty();
 
+
+
     Node<Tkey>* get_raiz();
 
 };
 
 
 template<typename Tkey>
-avl<Tkey>::avl(Tkey key,Pessoa x){
-    Node<Tkey> *NewNode = new Node<Tkey>;
-    NewNode->key = key;
-    NewNode->pes = x;
-    NewNode->left = nullptr;
-    NewNode->right = nullptr;
-    NewNode->height = 1;
-    raiz = NewNode;
+avl<Tkey>::avl(){
+
 }
 
 
@@ -88,7 +87,7 @@ Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
     if (no != nullptr){
 
         no->left = clear(no->left);
-        no->right =clear(no->right);
+        no->right = clear(no->right);
         cout << "\nRemovendo chave " << no->key << endl;
         delete no;
 
@@ -99,8 +98,7 @@ Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
 
 template<typename Tkey>
 avl<Tkey>::~avl(){
-    raiz= clear(raiz);
-
+    //clear(raiz);
 
 }
 
@@ -114,12 +112,12 @@ Node<Tkey>* avl<Tkey>::create_node(Tkey key, Pessoa pes){
     node->height = 1;
     return node;
 }
-
+/*
 template<typename Tkey>
 void avl<Tkey>::mainInsert(Tkey key, Pessoa pes){
     avl_insert(raiz, key, pes);
 }
-
+*/
 
 // ######################################### Rotações e max #########################################
 
@@ -216,7 +214,7 @@ Node<Tkey>* avl<Tkey>::avl_balance(Node<Tkey> *no, Tkey key){
     
     */
     
-    else if(balancing_factor(no) < -1 && key > no->left->key)
+    else if(balancing_factor(no) < -1 && key >= no->left->key)
         return leftRight(no);
 
     // Rotação a esquerda. 
@@ -230,7 +228,7 @@ Node<Tkey>* avl<Tkey>::avl_balance(Node<Tkey> *no, Tkey key){
                                \
                                 y
     */
-    else if(balancing_factor(no) > 1 && key > no->right->key )
+    else if(balancing_factor(no) > 1 && key >= no->right->key )
         return leftRotation(no);
     
     // Rotação dupla a esquerda
@@ -256,11 +254,11 @@ Node<Tkey>* avl<Tkey>::avl_balance(Node<Tkey> *no, Tkey key){
 //##############################################################
 
 //      Funções para percorrer e imprimir a árvore em ordem definida
-/*
+
 template<typename Tkey>        //(raiz,esq,dir)
-void avl_pre_ordem(Node<Tkey> *no){
+void avl<Tkey>::avl_pre_ordem(Node<Tkey> *no){
     if (no != nullptr) {        
-        std::cout << "Chave " << no->key << ", " << "Valor "<< no->pes << std::endl;
+        std::cout << "Chave " << no->key << ", " << "Valor "<< no->pes.get_cpf() << std::endl;
         avl_pre_ordem(no ->left);
         avl_pre_ordem(no ->right);
     }
@@ -268,40 +266,41 @@ void avl_pre_ordem(Node<Tkey> *no){
 }
 
 template<typename Tkey>        //(esq,dir,raiz)
-void avl_pos_ordem(Node<Tkey> *no){
+void avl<Tkey>::avl_pos_ordem(Node<Tkey> *no){
     if (no != nullptr) {
         avl_pos_ordem(no ->left);
         avl_pos_ordem(no ->right);
-        std::cout << "Chave " << no->key << ", " << "Valor "<< no->value << std::endl;
+        cout << "Chave " << no->key <<endl;
     }
 }
 
 
 template<typename Tkey>       //(esq,raiz,dir)
-void avl_in_ordem(Node<Tkey> *no){
+void avl<Tkey>::avl_in_ordem(Node<Tkey> *no){
     if (no != nullptr) {
         avl_in_ordem(no ->left);
-        std::cout << "Chave " << no->key << ", " << "Valor "<< no->value << std::endl;
+        std::cout << "Chave " << no->key << endl;
         avl_in_ordem(no ->right);
     }
 }
-*/
+
 
 //############################################################
 
 //                Funções auxiliares
-
+/*
 template <typename Tkey>
 Node<Tkey>* avl<Tkey>::get_raiz(){
     return raiz;
 }
-
+*/
+/*
 template<typename Tkey>    // retorna boleano, true caso a árvore esteja vazia
 bool avl<Tkey>::avl_empty(){
     return( raiz == NULL);
 }
 
-
+*/
 
 template<typename Tkey>    //retorna a altura do nó, 0 caso a árvore esteja vazia
 int avl<Tkey>::avl_height(Node<Tkey> *no){
@@ -376,16 +375,16 @@ Node<Tkey>* avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
 }
 
 
-
+/*
 template<typename Tkey>
 Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes){
-     /**
+     /*
      * Caso base: na primeira verificação, se o no == nullptr retornar true, significa que estamos na raiz e
      * ela está vazia, logo iremos colocar os valores nela.
      * 
      * Se for na segunda ou posteriores verificações, significa que iremos adicionar uma nova folha com os 
      * valores passados nos parâmetros da função.
-     */
+    
     if(no == nullptr){
         return create_node(key, pes);
     }
@@ -400,7 +399,7 @@ Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes){
         
         
         // Vereficará se o valor da key passada é menor que a chave do nó atual 
-        if(key > no->key){
+        if(key >= no->key){
             no->right = avl_insert(no->right, key, pes);
             //Será verificado se é preciso fazer alguma rotação para deixar balanceada.
             no = avl_balance(no, key); //*** ocorreu Problema no balanceamento
@@ -413,15 +412,71 @@ Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes){
 
     return no;
 }
+*/
+template<typename Tkey>
+Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *p, Tkey key, Pessoa pes){         //insere um novo nó
 
-template<typename Tkey>        //(raiz,esq,dir)
-void avl<Tkey>::avl_pre_ordem(Node<Tkey> *no){
-    if (no != nullptr) {        
-        cout << "Chave " << no->key << endl;
-        avl_pre_ordem(no ->left);
-        avl_pre_ordem(no ->right);
+    if (p == NULL)
+        return create_node(key, pes);
+    if (key < p->key)
+        p->left = avl_insert(p->left, key, pes);
+    else if (key >= p->key)
+        p->right = avl_insert(p->right, key, pes);
+    else
+        return p; // não permite chaves repetidas
+
+    // atualiza altura deste ancestral p
+    p->height = 1 + std::max(avl_height(p->left), avl_height(p->right));
+
+    p = avl_balance(p, key); // Regula o nó
+
+    return p; // 
+}
+
+template<typename Tkey>
+Node<Tkey>* avl<Tkey>::fixup_node(Node<Tkey> *p, Tkey key){                    //testa o balanço e realiza rotação se necessario
+
+    int bal = balance(p); // obtém balanço de node
+    // caso 4(a)
+    if (bal < -1 && key < p->left->key)
+        return rightRotation(p);
+
+    // caso 4(b)
+    else if (bal < -1 && key >= p->left->key){
+        p->left = leftRotation(p->left);
+        return rightRotation(p);
     }
 
+    // simétrico do caso 4(a)
+    else if (bal > 1 && key >= p->right->key)
+        return leftRotation(p);
+
+    // simétrico do caso 4(b)
+    else if (bal > 1 && key < p->right->key){
+
+        p->right = rightRotation(p->right);
+        return leftRotation(p);
+
+    }
+    return p;
+}
+
+template<typename Tkey>
+Node<Tkey>* avl<Tkey>::*allocateNode(Tkey key, Pessoa value){                 //aloca um novo node com os dados dos parâmetros
+
+    Node<Tkey> *node = new Node<Tkey>;
+    node->key = key;
+    node->value = value;
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 1;
+    return node;
+}
+template <typename Tkey>
+int avl<Tkey>::balance(Node<Tkey> *node){                                   //retorna a diferença entre a altura dos filhos
+    if (node == NULL)
+        return 0;
+    return avl_height(node->right) - avl_height(node->left);
 }
 
 
