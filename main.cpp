@@ -26,9 +26,9 @@ void imprime_menu(){                                    //imprime o menu
 
 int main(){
     
-    Pessoa eu("123.459.789-10","João", "Almir", "10/17/2000", "Guarulhos");
+    Pessoa eu("123.459.789-10","João", "Almir", "1/10/2000", "Guarulhos");
     
-    cout << eu.converte_ano("10/10/2000") << endl;
+    cout << eu.converte_ano("1/1/2000") << endl;
     
     
     //criação das arvores
@@ -55,7 +55,7 @@ int main(){
     vector<string> row;
     string line;
     //fin.open("data.csv", ios::in);
-    
+
 
 
     // construção da árvore avl, onde cada no tem chave sendo o cpf da pessoa e o seus dados em um objeto pessoa
@@ -132,7 +132,7 @@ int main(){
     //arv_nome.avl_in_ordem(raiz_nome);
 
     */
-    /*
+    
     bool nPegaPrimeiraLinha3 = true;
     
     fin.open("data.csv", ios::in);
@@ -168,18 +168,11 @@ int main(){
         //cout << pessoa_para_chave_data.converte_dia(row[3]) << endl;
         //cout << row[3] << endl;
         
-        long int ano=  x.converte_ano(row[3]) * 10000;
-        long int mes=  x.converte_mes(row[3]) * 100;
-        long int dia = x.converte_dia(row[3]);
-        cout <<row[3] << endl;
-        cout << ano << endl;
-        cout << mes << endl;
-        cout << dia << endl;
+    
         
-        long int somaTUDO = ano + dia + mes;
-        cout << somaTUDO << endl;
-        cout << "##############" << endl;
-        //raiz_data = arv_data.avl_insert(raiz_data, ,x);
+        long int somaTUDO = x.converte_ano(row[3]) * 10000 + x.converte_mes(row[3]) * 100 + x.converte_dia(row[3]);
+
+        raiz_data = arv_data.avl_insert(raiz_data,somaTUDO ,x);
         
     }
 

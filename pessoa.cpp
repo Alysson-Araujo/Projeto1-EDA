@@ -86,20 +86,28 @@ using namespace std;;
     
     
    long int Pessoa::converte_ano(string x){
-        int index = 0;
-        char nova[4];
-        if(x.size() == 10){
-            nova[0] = x[9];
-            nova[1] = x[8];
+        char nova[4];   
+
+        if(x.size() == 10){         //data com tamanho 10
+            nova[0] = x[6];
+            nova[1] = x[7];
+            nova[2] = x[8];
+            nova[3] = x[9];    
+        }
+        else if(x.size() == 9){      //data com tamanho 9
+            nova[0] = x[5];
+            nova[1] = x[6];
             nova[2] = x[7];
-            nova[3] = x[6];    
+            nova[3] = x[8];   
         }
-        else if(x.size() == 9){
-            
+        else{
+            nova[0] = x[4];          //data com tamanho 8
+            nova[1] = x[5];
+            nova[2] = x[6];
+            nova[3] = x[7]; 
         }
-        cout << "lenght é "<< x.length();
-        cout << "size é "<< x.size();
-        return stol( nova);
+        
+        return stol(nova);
     }
     /*
     fstream fin;

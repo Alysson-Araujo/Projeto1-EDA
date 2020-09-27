@@ -1,0 +1,3 @@
+Para executar digite no terminal o comando abaixo
+
+g++ *.cpp -o programa && ./programa
