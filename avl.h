@@ -45,7 +45,7 @@ public:
     ~avl();
     
     Node<Tkey>* clear(Node<Tkey>* no);
-
+    void search_repetido(Node<Tkey>* no, Tkey Key, Pessoa pess);
     //deletará todos os nós presente na arvore, passando a arvore a partir da sua raiz.
     //Node<Tkey>* avl_delete(Node<Tkey> *no);
     
@@ -61,7 +61,7 @@ public:
     void mainInsert(Tkey key, Pessoa pes);
 
     void avl_in_ordem(Node<Tkey> *no);
-    Node<Tkey>* avl_search(Node<Tkey> *node,Tkey key);
+    Tkey avl_search(Node<Tkey> *node,Tkey key);
 
     void insertMain(Tkey key, Pessoa pes);
     
@@ -310,55 +310,9 @@ int avl<Tkey>::avl_height(Node<Tkey> *no){
     else
         return no->height;
 }
-/*
-template<typename Tkey>
-Node<Tkey>* avl<Tkey>::search(Tkey key){
-    // se a chave estiver na raiz, retorna o valor imediatamente
-    if(raiz->pes.get_nome()==key){
-        return raiz;    //complexidade O(1)
-    }
-    
-    
-    //A ideia desse método 
-    Node<Tkey>* aux_minus = raiz->left; //Guarda o lado esquerdo da árvore
-    Node<Tkey>* aux_plus = raiz->right; // Guarda o lado direito da árvore
-    // fará a busca para o lado esquerdo da árvore caso a chave desejada seja menor do que a chave do no
-    if(key <= aux_minus->key){// chave está no lado esquerdo da árvore
-        while (aux_minus!=nullptr){
-            if(aux_minus->key == key){ //Significa que foi achado a chave
-                return aux_minus; // retorna o valor achado
-            }
-            else if(aux_minus->left->key <= key){ //Verifica se a chave a esquerda é menor ou igual a chave a ser buscada
-                aux_minus = aux_minus->left; //desce para a esquerda
-            }
-            else if(aux_minus->right->key >= key){ //Verifica se a chave a direita é menor ou igual a chave a ser buscada
-                aux_minus= aux_minus->right;//desce para a direita
-            }
-        }
-    }       
-    else if(key>=aux_plus->key){// chave está no lado direito da árvore
-        while (aux_plus!=NULL){
-            if(aux_plus->key ==key){ //Significa que foi achado a chave
-                return aux_plus;// retorna o valor achado
-            }
-            else if(aux_plus->left->key <= key){//Verifica se a chave a esquerda é menor ou igual a chave a ser buscada
-                aux_plus = aux_plus->left;//desce para a esquerda
-            }
-            else if(aux_plus->right->key >= key){//Verifica se a chave a direita é menor ou igual a chave a ser buscada
-                aux_plus= aux_plus->right; //desce para a direita
-            }
-        }
-    }
-
-
-    
-    cout << "A pessoa não foi encontrada.";
-    return NULL;
-}
-*/
 
 template<typename Tkey>
-Node<Tkey>* avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
+Tkey avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
 
     if(node == NULL)                            //retorna NULL se não encontrar
         return NULL;
@@ -370,7 +324,9 @@ Node<Tkey>* avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
         return avl_search(node->right, key);
     
     else
-        return node;
+        node->pes.imprime_csv();
+        return node->key;
+
 
 }
 
@@ -498,9 +454,23 @@ Node<Tkey>* avl_delete(Node<Tkey>* no){
     return nullptr;
 }
 */
+template<typename Tkey>
+void avl<Tkey>::search_repetido(Node<Tkey>* no, Tkey key, Pessoa pess){
+    if (no != nullptr) {
+        if(no->key == key){
+            cout << "Chave " << no->key << endl;
+            //no->pes.imprime_csv();
+            no->pes.imprime_csv();
+        
+            search_repetido(no ->left,key,pess);
+            search_repetido(no ->right, key, pess);
+        }
+        else{
+            search_repetido(no ->left,key,pess);
+            search_repetido(no ->right, key, pess);
+        }
+        
+    }
+}
+
 #endif
-
-
-
-
-

@@ -1,96 +1,138 @@
 #include <iostream>
 #include "pessoa.h"
 #include <string>
-
+#include<sstream>
 using namespace std;;
 
     Pessoa::Pessoa(){}
 
-    Pessoa::Pessoa(long long int cpf, string nome, string sobrenome, int nasc_dia, int nasc_mes, int nasc_ano, string cidade_nasc){
+    Pessoa::Pessoa(string cpf, string nome, string sobrenome, string dataNascimento, string cidade_nasc){
 
         this->cpf = cpf;
         this->nome = nome;
         this->sobrenome = sobrenome;
-        this->nasc_dia = nasc_dia;
-        this->nasc_mes = nasc_mes;
-        this->nasc_ano = nasc_ano;
+        this->dataNascimento = dataNascimento;
         this->cidade_nasc = cidade_nasc;
-   
     }
 
     void Pessoa::imprime_csv(){
 
-        cout << formato_cpf() << ","
+        cout << cpf<< ","
              << nome << ","
              << sobrenome << ","
-             << nasc_dia << "/"
-             << nasc_mes << "/"
-             << nasc_ano << ","
+             << dataNascimento << ","
              << cidade_nasc << endl;
 
     }
 
-    int Pessoa::mais_velho_que(Pessoa x){       //se a pessoa do parametro for mais velha retorna -1
-                                                //se a pessoa do parametro for mais nova retorna 1
-                                                //se as datas forem iguais retorna 0  
-        if(nasc_dia == x.nasc_dia && nasc_mes == x.nasc_mes && nasc_ano == x.nasc_ano)    
-        return 0;
 
-        else if(nasc_ano < x.nasc_ano)
-            return 1;
-
-        else if(nasc_ano > x.nasc_ano)
-            return -1;
-
-        else if(nasc_mes < x.nasc_mes)          //compara datas com a pessoa do parametro
-            return 1;
-
-        else if(nasc_mes > x.nasc_mes) 
-            return -1;
+    long int Pessoa::to_long_int(string cpf){
         
-        else if(nasc_dia < x.nasc_dia)          
-            return 1;
-            
-        else                                    
-            return -1;
+        int index = 0;
+        string nova;
 
-    }   
-
-
-
-    string Pessoa::formato_cpf(){
-
-        string aux = to_string(cpf);    //converte de int para string e guarda no aux
-
-        char fmt[14];                  //cria um vetor de char livre para colocar os numeros, pontos e traço
-
-        int index = 0;                  //indice auxiliar
-        
-        for(int i = 0; i < 14; i++){
-
-            if(i == 3 || i == 7)        //na posição 3 e 7 insere ponto
-                fmt[i] = '.';
-
-            else if(i == 11)            //na posição 11 insere traço
-                fmt[i] = '-';
-
+        for(int i = 0; i< 14; i++){
+            if (i == 3 || i== 7 || i == 11)
+                continue;
             else{
-                fmt[i] = aux[index];    //nas outras posições insere os numeros
-                index++;   
-
+                nova[index] = cpf[i];
+                index++;
             }
-
+                
         }
-
-
-        return fmt;
+        
+        return stol( nova );
 
     }
 
 
+    long int Pessoa::converte_mes(string x){
+        char nova[2];
+
+        if(x[1] == '/')
+            nova[0] = x[0];
+        else{
+            nova[0] = x[0];
+            nova[1] = x[1];
+        }
+    
+        return stol( nova);
+    }
+
+    
+    long int Pessoa::converte_dia(string x){
+
+        char nova[2];
+
+        if(x[1] == '/' && x[3] == '/'){    //mes e dia com 1 digito
+            nova[0] = x[2];
+        }
+        else if(x[1] == '/' && x[4] == '/'){    //dia com 1 digito e mes com 2
+            nova[0] = x[2];
+            nova[1] = x[3];
+        }
+        else if(x[2] == '/' && x[4] == '/'){   //dia com 2 digitos e mes com 1
+            nova[0] = x[3];
+        }
+        else{                                  //dia e mes com 2 digitos
+            nova[0] = x[3];
+            nova[1] = x[4];
+        }
+        
+        
+        return stol( nova);
+    }
+
+    
+    
+   long int Pessoa::converte_ano(string x){
+        int index = 0;
+        char nova[4];
+        if(x.size() == 10){
+            nova[0] = x[9];
+            nova[1] = x[8];
+            nova[2] = x[7];
+            nova[3] = x[6];    
+        }
+        else if(x.size() == 9){
+            
+        }
+        cout << "lenght é "<< x.length();
+        cout << "size é "<< x.size();
+        return stol( nova);
+    }
+    /*
+    fstream fin;
+    fin.open("data.csv", ios::in);
+    vector<string> row;
+    std::string line = "7/19/1989";
+  
+    fin.open("datasTeste.csv", ios::in);
+    std::stringstream s_stream(line);
+        
+        
+    
+   while( getline(fin, line)){
+        
+        
+        row.clear();
+        stringstream s_stream(line);
+        while( s_stream.good() ){
+            string substr;
+            getline(s_stream, substr, '/');
+            row.push_back(substr);
+        }
+        for (size_t i = 0; i < row.size(); i++)
+        {
+            cout << row[i] << endl;
+        }
+        
+        
+        
+    */
 
     //gets
-    long long int Pessoa::get_cpf(){
+    string Pessoa::get_cpf(){
         return cpf;
     }
 
@@ -102,18 +144,15 @@ using namespace std;;
         return sobrenome;
     }
 
-    int Pessoa::get_nasc_dia(){
-        return nasc_dia;
-    }
 
-    int Pessoa::get_nasc_mes(){
-        return nasc_mes;
-    }
-
-    int Pessoa::get_nasc_ano(){
-        return nasc_ano;
-    }
 
     string Pessoa::get_cidade_nasc(){
         return cidade_nasc;
     }
+
+    //sets
+    void Pessoa::set_cpf(string cpf) {this->cpf = cpf;}
+    void Pessoa::set_nome(string nome){this->nome = nome;}
+    void Pessoa::set_sobrenome(string sobrenome){this->sobrenome = sobrenome;}
+    void Pessoa::set_cidade_nasc(string cidade_nasc){this->cidade_nasc = cidade_nasc;}
+    void Pessoa::set_dataNascimento(string data){this->dataNascimento = data;}

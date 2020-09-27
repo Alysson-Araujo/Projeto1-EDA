@@ -1,8 +1,11 @@
 #include <iostream>
+//#include <stdio> // para usar o atol()
+#include <vector>
 #include "avl.h" 
 #include "pessoa.h"     
 #include <fstream>
 #include <string>
+#include<sstream>
 using std::cout;
 using std::endl;
 using std::cin;
@@ -14,44 +17,210 @@ void imprime_menu(){                                    //imprime o menu
     cout << "------------------------------" << endl;
     cout << "          ARVORE AVL" << endl;
     cout << "------------------------------" << endl;
-    cout << "1: Inserir pessoa" << endl;
-    cout << "2: Remover pessoa pelo nome" << endl;
-    cout << "3: Remover pessoa pelo CPF" << endl;
-    cout << "4: Percurso pre-ordem" << endl;
-    cout << "5: Percurso em-ordem" << endl;
-    cout << "6: Percurso pos-ordem" << endl;
-    cout << "7: Buscar pessoa pelo nome" << endl;
-    cout << "8: Buscar pessoa pelo CPF" << endl;
-    cout << "0: Sair" << endl;                          //Provavelmente precisará de mais opções
+    cout << "1: Buscar pessoa pelo CPF" << endl;
+    cout << "2: Buscar pessoa pelo nome" << endl;
+    cout << "3: Buscar pessoa pelo intervalo da data de nasc" << endl;
+    cout << "4: Imprimir todas os dados de todas as pessoas" << endl;
     cout << "\t\tEscolha um numero:";
 }
 
-
-
 int main(){
     
+    Pessoa eu("123.459.789-10","João", "Almir", "10/17/2000", "Guarulhos");
     
-    avl<string> arv_cpf();
-    avl<long long int> arv_nome();
-    avl<int> arv_ano();
-
-    Node<string>* raiz_cpf=NULL;
-    Node<long long int>* raiz_nome=NULL;
-    Node<int>* raiz_ano=NULL;
-
-    Pessoa eu(12345678910,"João","Almir",17,10,2000,"Guarulhos");
-
+    cout << eu.converte_ano("10/10/2000") << endl;
     
     
+    //criação das arvores
+    avl<long int> arv_cpf;
+    avl<string> arv_nome;
+    avl<long int> arv_data;
+    //criação das raizes
+    Node<long int>* raiz_cpf=NULL;
+    Node<string>* raiz_nome=NULL;
+    Node<long int>* raiz_data=NULL;
+
+    vector<string> dados;
+    
+    Pessoa pes;
+
+    string linha;
+
+        
+    bool nPegaPrimeiraLinha1 = true;
+
+
+
+    fstream fin;
+    vector<string> row;
+    string line;
+    //fin.open("data.csv", ios::in);
+    
+
+
+    // construção da árvore avl, onde cada no tem chave sendo o cpf da pessoa e o seus dados em um objeto pessoa
+   /*if(!fin.is_open()){
+        throw std::runtime_error ("Não é facin po");
+        }
+    
+    
+    while( getline(fin, line)){
+        
+        if(nPegaPrimeiraLinha1==true){
+            getline(fin,line);
+            nPegaPrimeiraLinha1 = false;
+        }
+        row.clear();
+        stringstream s_stream(line);
+        while( s_stream.good() ){
+            string substr;
+            getline(s_stream, substr, ',');
+            row.push_back(substr);
+        }
+        
+        
+        Pessoa teste(row[0],row[1],row[2],row[3],row[4]);
+        raiz_cpf = arv_cpf.avl_insert(raiz_cpf, teste.to_long_int(row[0]) ,teste);
+        
+    }
+  
+    //Fechando o arquivo data.csv
+    fin.close();
+    
+    arv_cpf.clear(raiz_cpf);
+    raiz_cpf = nullptr;
+    bool nPegaPrimeiraLinha2 = true;
+    
+    fin.open("data.csv", ios::in);
+
+
+
+    // construção da árvore avl, onde cada no tem chave sendo o primeiro nome da pessoa e os seus dados em um objeto pessoa
+    if(!fin.is_open()){
+        throw std::runtime_error ("Error");
+        }
+    
+    
+    
+    while( getline(fin, line)){
+        
+        if(nPegaPrimeiraLinha2==true){
+            getline(fin,line);
+            nPegaPrimeiraLinha2 = false;
+        }
+        row.clear();
+        stringstream s_stream(line);
+        while( s_stream.good() ){
+            string substr;
+            getline(s_stream, substr, ',');
+            row.push_back(substr);;
+            
+        }
+        
+    
+        Pessoa pessoa_para_chave_nome(row[0],row[1],row[2],row[3],row[4]);
+        raiz_nome = arv_nome.avl_insert(raiz_nome,row[1],pessoa_para_chave_nome);
+        
+    }
+
+    //arv_nome.avl_in_ordem(raiz_nome);
+    //cout << arv_nome.avl_search(raiz_nome, "Kai") << endl;
+    //Fechando o arquivo data.csv
+    fin.close();
+    //arv_nome.search_repetido(raiz_nome, "Kai", raiz_nome->pes);
+    //arv_nome().
+    //arv_nome.avl_in_ordem(raiz_nome);
+
+    */
+    /*
+    bool nPegaPrimeiraLinha3 = true;
+    
+    fin.open("data.csv", ios::in);
+
+    
+
+    // construção da árvore avl, onde cada no tem chave sendo o primeiro nome da pessoa e os seus dados em um objeto pessoa
+    if(!fin.is_open()){
+        throw std::runtime_error ("Error");
+        }
+    
+    
+    
+    while( getline(fin, line)){
+        
+        if(nPegaPrimeiraLinha3==true){
+            getline(fin,line);
+            nPegaPrimeiraLinha3 = false;
+        }
+        row.clear();
+        stringstream s_stream(line);
+        while( s_stream.good() ){
+            string substr;
+            getline(s_stream, substr, ',');
+            row.push_back(substr);
+            
+        }
+        
+    
+        Pessoa x(row[0],row[1],row[2],row[3],row[4]);
+        //cout << pessoa_para_chave_data.converte_ano(row[3]) << endl;
+        //cout << pessoa_para_chave_data.converte_mes(row[3]) << endl;
+        //cout << pessoa_para_chave_data.converte_dia(row[3]) << endl;
+        //cout << row[3] << endl;
+        
+        long int ano=  x.converte_ano(row[3]) * 10000;
+        long int mes=  x.converte_mes(row[3]) * 100;
+        long int dia = x.converte_dia(row[3]);
+        cout <<row[3] << endl;
+        cout << ano << endl;
+        cout << mes << endl;
+        cout << dia << endl;
+        
+        long int somaTUDO = ano + dia + mes;
+        cout << somaTUDO << endl;
+        cout << "##############" << endl;
+        //raiz_data = arv_data.avl_insert(raiz_data, ,x);
+        
+    }
+
+    //arv_nome.avl_in_ordem(raiz_nome);
+    //cout << arv_nome.avl_search(raiz_nome, "Kai") << endl;
+    //Fechando o arquivo data.csv
+    fin.close();
+    
+    arv_data.avl_in_ordem(raiz_data);
+
+    arv_data.clear(raiz_data);
+    raiz_data = nullptr;
+
+    
+    
+
+
+
+
+    //cout << endl;
+    //arv_data.avl_in_ordem(raiz_data);
+
+
+
+
+
+    /*
+
     bool menu_ativo = true;                         //deixa o menu ativo
 
-    long long int cpf;                              //
+    long int cpf;                                   //
     string nome, sobrenome;                         //variaveis para usar no menu;
     int data_dia, data_mes, data_ano;               //
 
-    int escolha;                                     //para escolher no menu
-
+    int escolha;                                    //para escolher no menu
     int ordem;                                      //para escolher a arvore da ordem
+
+  
+
+
+
 
     while(menu_ativo == true){
 
@@ -61,59 +230,23 @@ int main(){
         
         switch (escolha){
         
-        case 1:                             //inserir pessoa
-            
-            cout << "\n\t\tadicionando pessoa\n\n";                     //
-                                                                        //
-            cout << "\ninsira o cpf (11 digitos)\n";                    //
-            cin >> cpf;                                                 //
-                                                                        //                                            
-            cout << "\ninsira o nome\n";                                //                
-            cin >> nome;                                                //
-                                                                        //
-            cout << "\ninsira o sobrenome\n";                           //    entradas da pessoa                  
-            cin >> sobrenome;                                           //  
-                                                                        //
-                                                                        //
-            cout << "\ninsira o dia da data de nascimeto \n";           //                                  
-            cin >> data_dia;                                            //  
-                                                                        //
-            cout << "\ninsira o mes da data de nascimeto \n";           //                                  
-            cin >> data_mes;                                            //  
-                                                                        //
-            cout << "\ninsira o ano da data de nascimeto \n";           //                                  
-            cin >> data_ano;                                            //  
-
-
-            //Pessoa nova(cpf,nome,sobrenome,data_dia,data_mes,data_ano); nova pessoa para inserir na arvore
-            //to em duvida se vai precisar de new na pessoa
-            
-            //arv_cpf.mainInsert(raiz_cpf,cpf,nova);
-            //avl<string>::arv_nome.mainInsert(raiz_nome,nome,nova);   inserts na arvore
-            //raiz_ano = raiz_ano.avl_insert(raiz_ano, data_ano,  nova);
-            
-            // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-            //tentei inserir dessas 3 formas e nenhum tem a sintaxe certa
-
-            cout << nome << " Criado\n\n";
-            
+        //Mas não pede para inserir assim :/
+        case 1:                             //Consulta pelo CPF
+            cout << insira o cpf
+                
             
             break;
 
-        case 2:                             //Remover pessoa pelo nome
-            cout << "insira o nome da pessoa que quer remover \n";
+        case 2:                             //Consulta pelo nome
+            cout << "insira o nome da pessoa que quer  \n";
             cin >> nome;
 
 
-
-
-
-            cout << nome << " removido\n";            
             break;
         
-        case 3:                             //Remover pessoa pelo CPF
-            cout << "insira CPF da pessoa que quer remover (11 digitos) \n";
-            cin >> cpf;
+        case 3:                             //Consulta pelo intervalo data nasc
+            cout << ""
+            
 
         
             
@@ -122,124 +255,9 @@ int main(){
             cout << cpf << " removido\n";
             break;
 
-       
-        
-        case 4:                             //Percurso pre-ordem
-            cout << "\nescolha a arvore para percorrer\n";
-            cout << "1: CPF\n2: Nome\n3: Data de nasc\n";
-            cin >> ordem;
-            if(ordem == 1){
-
-
-
-            }
-            else if(ordem == 2){
-
-
-
-            }   
-            else if(ordem == 3){
-
-
-
-            }
-            else{
-                cout << "numero invalido";
-            }
-            
-
-        
-            break;
-        
-
-        case 5:                             //Percurso em-ordem
-
-            cout << "\nescolha a arvore para percorrer\n";
-            cout << "1: CPF\n2: Nome\n3: Data de nasc\n";
-            cin >> ordem;
-            if(ordem == 1){
-
-
-
-            }
-            else if(ordem == 2){
-
-
-
-            }   
-            else if(ordem == 3){
-
-
-
-            }
-            else{
-                cout << "\nnumero invalido\n";
-            }
-            
-
-            
-            break;
-
-        case 6:                             //Percurso pos-ordem
-
-            cout << "\nescolha a arvore para percorrer\n";
-            cout << "1: CPF\n2: Nome\n3: Data de nasc\n";
-            cin >> ordem;
-            if(ordem == 1){
-
-
-
-            }
-            else if(ordem == 2){
-
-
-
-            }   
-            else if(ordem == 3){
-
-
-
-            }
-            else
-                cout << "\nnumero invalido\n";
-            
-
+        case 4:
             
             
-            break;
-        
-        case 7:                             //Buscar pessoa pelo nome
-            cout << "\ninsira o nome\n";
-            cin >>nome;
-
-
-
-
-            break;
-        
-        
-        case 8:                              //Buscar pessoa pelo CPF
-            cout << "\ninsira o CPF\n";
-            cin >> cpf;
-
-        
-
-
-            
-            break;
-        
-        
-
-        case 0:                             //Finaliza o programa
-
-            //arv_cpf.clear(raiz_cpf);
-            //arv_nome.clear(raiz_cpf);
-            //arv_ano.clear(raiz_ano);
-            
-
-            cout<<"Árvores esvaziadas"<< endl;
-            cout<<"Finalizado" << endl;
-            menu_ativo = false;
             break;
 
         default:                           //numero invalido
@@ -249,81 +267,14 @@ int main(){
             break;
         
         }
-
+    
 
     }
+*/
 
 
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    Pessoa eu(12345678910,"João", "Almir", 17,10,2020, "Guarulhos");
-    Pessoa outro(82945178510,"Fulano", "Silva",17,10,2010,  "Rio de janeiro");
-    Pessoa corona(12345678910,"Corona", "Virus", 27,2,2020, "Mundo todo");
-    Pessoa falstao(12345678910,"Falstão", "tão", 9,9,1961, "Rio de janeiro");
-    Pessoa seu(12345678910,"Seu", "Creysson", 1,5,1975, "Lugar lá");
-    Pessoa atilio(92541608361,"Atilio", "Luis", 20,10,1985, "Fortaleza");
-    Pessoa alysson(92541608361,"Alysson", "Luis", 20,10,1985, "Fortaleza");
-    */
-    //avl<long long int> cpf_avl(eu.get_cpf(), eu);
-    //avl<string> nome_avl(eu.get_nome(), eu);
-        
-
-    //raiz1 = teste.avl_insert(raiz1, "Alysson Araújo",  corona); 
-    //raiz1 = teste.avl_insert(raiz1, "João Almir" ,  falstao); 
-    //raiz1 = teste.avl_insert(raiz1, "Rafael Sousa" ,  seu);
-    //raiz1 = teste.avl_insert(raiz1, "Gustavo Santos" ,  atilio);
-    //raiz1 = teste.avl_insert(raiz1, "João Almir" ,  alysson);
-    //raiz1 = teste.avl_insert(raiz1, "Wladimir Tavares" ,  alysson);
-    //raiz1 = teste.avl_insert(raiz1, "Atílio Tavares" ,  alysson);
-    //raiz1 = teste.avl_insert(raiz1, "Alysson Araújo" ,  alysson);
-    //raiz1 = teste.avl_insert(raiz1, "João Almir" ,  alysson);
-    ////raiz1 = teste.avl_insert(raiz1, 50 ,  alysson);
-    //teste.avl_in_ordem(raiz1);
-    ////teste.avl_in_ordem(raiz1);
-    //raiz1 = teste.clear(raiz1);
-    /*
-    string linha;
-
-    ifstream myfile ("data.csv"); // ifstream = padrão ios:in
-  if (myfile.is_open())
-  {
-    while (! myfile.eof() ) //enquanto end of file for false continua
-    {
-      getline(myfile, linha); // como foi aberto em modo texto(padrão)
-                             //e não binário(ios::bin) pega cada linha
-      cout << linha << endl;
-    }
-    myfile.close();
-  }
-
-    */
-    //teste.mainInsert(teste.get_raiz(),outro.get_nome(), outro); 
-    //teste.mainInsert(14, corona); 
-    //teste.mainInsert(53, falstao); 
-    //teste.mainInsert(40, seu);
-    //teste.mainInsert(12, atilio);
-    //teste.mainInsert(1, alysson);
-    //teste.avl_pre_ordem(teste.get_raiz());
-
-       
 
     return 0;
 

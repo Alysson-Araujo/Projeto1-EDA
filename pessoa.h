@@ -6,33 +6,46 @@ using std::string;
 class Pessoa{
     private:
 
-        long int cpf;
+        string cpf;
 
         string nome;
         string sobrenome;
-
-        int nasc_dia;   //
-        int nasc_mes;   //  data de nascimento
-        int nasc_ano;   //
-
+        string dataNascimento;
+        
         string cidade_nasc;  // cidade onde nasceu
 
-    public:
-        Pessoa();
-        Pessoa(long long int cpf, string nome, string sobrenome, int nasc_dia, int nasc_mes, int nasc_ano, string cidade_nasc);  //construtor
+    public:               
+        Pessoa();           //
+        Pessoa(string cpf, string nome, string sobrenome, string dataNascimento, string cidade_nasc);  //construtor
 
         void imprime_csv(); //imprime todos os dados da pessoa separado por virgula
-        int mais_velho_que(Pessoa x); //retorna 0 se a idade for igual, -1 se a pessoa do parâmetro for mais velha e 1 se for mais nova
         string formato_cpf();  // coloca os pontos e traço do cpf
+        
+        long int to_long_int(string cpf); //recebe string e retorna long int
+        
+        long int converte_dia(string x);
+        long int converte_mes(string x);
+        long int converte_ano(string x);
 
         //gets
-        long long int get_cpf();
+        string get_cpf();
         string get_nome();
         string get_sobrenome();
         int get_nasc_dia();
         int get_nasc_mes();
         int get_nasc_ano();
         string get_cidade_nasc();
+
+
+        //sets
+        void set_cpf(string cpf);
+        void set_nome(string nome); 
+        void set_sobrenome(string sobrenome);
+        void set_cidade_nasc(string cidade_nasc);
+        void set_dataNascimento(string data);
+        
+
+
 
 };
 
