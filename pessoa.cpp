@@ -56,7 +56,10 @@ using namespace std;;
             nova[1] = x[1];
         }
     
-        return stol( nova);
+        if(x.size() <= 10 && x.size() >= 8)
+            return stol( nova);
+        else
+            return -1;              //indica erro na quantidade de digitos
     }
 
     
@@ -79,8 +82,10 @@ using namespace std;;
             nova[1] = x[4];
         }
         
-        
-        return stol( nova);
+        if(x.size() <= 10 && x.size() >= 8)
+            return stol( nova);
+        else
+            return -1;          //indica erro na quantidade de digitos
     }
 
     
@@ -107,7 +112,10 @@ using namespace std;;
             nova[3] = x[7]; 
         }
         
-        return stol(nova);
+        if(x.size() <= 10 && x.size() >= 8)
+            return stol( nova);
+        else
+            return -1; //indica erro na quantidade de digitos
     }
     /*
     fstream fin;

@@ -20,7 +20,8 @@ void imprime_menu(){                                    //imprime o menu
     cout << "1: Buscar pessoa pelo CPF" << endl;
     cout << "2: Buscar pessoa pelo nome" << endl;
     cout << "3: Buscar pessoa pelo intervalo da data de nasc" << endl;
-    cout << "4: Imprimir todas os dados de todas as pessoas" << endl;
+    cout << "4: Imprimir todas as pessoa de um arvore em ordem" << endl;
+    cout << "0: Finaliza o programa" << endl;
     cout << "\t\tEscolha um numero:";
 }
 
@@ -240,6 +241,7 @@ int main(){
     //int ordem;                                      //para escolher a arvore da ordem
 
     int num;
+
     //cpf
     long int cpf_user;
 
@@ -250,8 +252,12 @@ int main(){
     string data_user_i, data_user_f;
     long int peso_i, peso_f;
 
+    //para escolher a arvore para percorrer inteira
+    int escolha_arvore;
+
 
     while (menu_ativo){
+        
         imprime_menu();
         cin >> num;
         switch (num)
@@ -271,25 +277,54 @@ int main(){
             cin >> nome_user;   
             arv_nome.search_repetido(raiz_nome, nome_user);
             break;
+            
         case 3:
-            cout <<"Digite o mes, dia e ano no formato MM/DD/AAAA do intervalo inicial\n";
+            cout <<"Digite o mes, dia e ano respectivamente no formato MM/DD/AAAA do intervalo\n";
             cin >> data_user_i;
-            cout <<"Digite o mes, dia e ano no formato MM/DD/AAAA do intervalo final\n";
+            cout <<"Digite o mes, dia e ano respectivamente no formato MM/DD/AAAA do outro intervalo\n";
             cin >> data_user_f;
 
-            peso_i = pes.converte_ano(data_user_i) * 1000 + pes.converte_mes(data_user_i) * 100 + pes.converte_dia(data_user_i);
-            peso_f = pes.converte_ano(data_user_f) * 1000 + pes.converte_mes(data_user_f) * 100 + pes.converte_dia(data_user_f);
-            
-            
+
+            peso_i = pes.converte_ano(data_user_i) * 10000 + pes.converte_mes(data_user_i) * 100 + pes.converte_dia(data_user_i);
+            peso_f = pes.converte_ano(data_user_f) * 10000 + pes.converte_mes(data_user_f) * 100 + pes.converte_dia(data_user_f);
+
+            if(peso_i < 0 || peso_f < 0){
+                cout << endl << "\t\t>>> FORMATO DE DATA INVALIDO <<<\n";
+            }
+
+
+            arv_data.avl_intervalo(raiz_data, peso_i, peso_f);
             break;
            
         case 4:
+            cout << "\tinsira a arvore que quer percorrer\n1:CPF 2:Nome 3: Data de nasc\n";
+            cin >> escolha_arvore;
 
+            switch (escolha_arvore)
+            {
+            case 1:
+                arv_cpf.avl_in_ordem(raiz_cpf);
+                break;
+
+            case 2:
+                arv_nome.avl_in_ordem(raiz_nome);
+                break;
+
+            case 3:
+                arv_data.avl_in_ordem(raiz_data);
+                break;
+            
+            default:
+                cout << "\n\t >> NUMERO INVALIDO <<\n";
+                break;
+            }
+            
             break;
 
             
         case 0:
             menu_ativo = false;
+            cout << "arvores esvaziadas\nfinalizado\n";
             break;
         default:
             cout <<"Por favor, digite um dos valores descritos no menu." << endl;
@@ -304,49 +339,6 @@ int main(){
     raiz_cpf = nullptr;
     raiz_data = nullptr;
     raiz_nome = nullptr;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 
 
     return 0;

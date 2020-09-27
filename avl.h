@@ -54,7 +54,7 @@ public:
 
     Node<Tkey>* avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes);
     
-    
+    Node<Tkey>* avl_intervalo(Node<Tkey> *no, Tkey key1, Tkey key2);
 
     void avl_in_ordem(Node<Tkey> *no);
     void avl_search(Node<Tkey> *node,Tkey key);
@@ -79,7 +79,6 @@ Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
 
         no->left = clear(no->left);
         no->right = clear(no->right);
-        cout << "\nRemovendo chave " << no->key;
         delete no;
 
     }
@@ -139,14 +138,14 @@ Node<Tkey>* avl<Tkey>::leftRotation(Node<Tkey> *no){
         return aux; // nova raiz
 }
 
-    //Rotação dupla a esquerda. // Acho que os nomes estão trocados
+    //Rotação dupla a esquerda. 
     template<typename Tkey>
     Node<Tkey>* avl<Tkey>::rightLeft(Node<Tkey>* no){
         no->right = rightRotation(no->right);
         return leftRotation(no);
     }
-
-    //Rotação dupla a esquerda.
+    
+    //Rotação dupla a direita.
     template<typename Tkey>
     Node<Tkey>* avl<Tkey>::leftRight(Node<Tkey>* no){
         no->left = leftRotation(no->left);
@@ -180,7 +179,7 @@ Node<Tkey>* avl<Tkey>::avl_balance(Node<Tkey> *no, Tkey key){
     // suponha que existe um nó desbalanceado b que tem um filho esquerdo x e o x tem  um filho esquerdo y, 
     // deixando o fator de balanceamento de b ser igual a -2. Para fazer o balanceamento, será preciso:
     /* faz uma rotação a direita no b
-                            b                x
+                            b                 x
                            /                 / \
                           x       =>        y   b
                          /
@@ -244,31 +243,13 @@ Node<Tkey>* avl<Tkey>::avl_balance(Node<Tkey> *no, Tkey key){
 
 //      Funções para percorrer e imprimir a árvore em ordem definida
 
-template<typename Tkey>        //(raiz,esq,dir)
-void avl<Tkey>::avl_pre_ordem(Node<Tkey> *no){
-    if (no != nullptr) {        
-        std::cout << "Chave " << no->key << ", " << "Valor "<< no->pes.get_cpf() << std::endl;
-        avl_pre_ordem(no ->left);
-        avl_pre_ordem(no ->right);
-    }
-
-}
-
-template<typename Tkey>        //(esq,dir,raiz)
-void avl<Tkey>::avl_pos_ordem(Node<Tkey> *no){
-    if (no != nullptr) {
-        avl_pos_ordem(no ->left);
-        avl_pos_ordem(no ->right);
-        cout << "Chave " << no->key <<endl;
-    }
-}
 
 
 template<typename Tkey>       //(esq,raiz,dir)
 void avl<Tkey>::avl_in_ordem(Node<Tkey> *no){
     if (no != nullptr) {
         avl_in_ordem(no ->left);
-        std::cout << "Chave " << no->key << endl;
+        no->pes.imprime_csv();
         avl_in_ordem(no ->right);
     }
 }
@@ -296,8 +277,8 @@ template<typename Tkey>
 void avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
 
     if(node == NULL){                            //retorna NULL se não encontrar
-        cout << "O seguinte CPF não foi encontrado:";
-        //return;
+        cout << "O seguinte CPF não foi encontrado: " << key << endl;
+        return;
     }
     if(key < node->key)
          avl_search(node->left, key);
@@ -309,48 +290,10 @@ void avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
         node->pes.imprime_csv();
             
     }
-    //return key;
 }
 
 
-/*
-template<typename Tkey>
-Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes){
-     /*
-     * Caso base: na primeira verificação, se o no == nullptr retornar true, significa que estamos na raiz e
-     * ela está vazia, logo iremos colocar os valores nela.
-     * 
-     * Se for na segunda ou posteriores verificações, significa que iremos adicionar uma nova folha com os 
-     * valores passados nos parâmetros da função.
-    
-    if(no == nullptr){
-        return create_node(key, pes);
-    }
-    // Vereficará se o valor da key passada é maior que a chave do nó atual 
-        if(key < no->key){
-            no->left = avl_insert(no->left, key, pes);
-            //Será verificado se é preciso fazer alguma rotação para deixar balanceada. 
-            no = avl_balance(no, key); //*** ocorreu Problema no balanceamento
-        }
-        
-        
-        
-        
-        // Vereficará se o valor da key passada é menor que a chave do nó atual 
-        if(key >= no->key){
-            no->right = avl_insert(no->right, key, pes);
-            //Será verificado se é preciso fazer alguma rotação para deixar balanceada.
-            no = avl_balance(no, key); //*** ocorreu Problema no balanceamento
-            // quando a key já está presente na árvore.
-        }
-    // Vai corrigir a altura da árvore
-    no->height = 1 + std::max(avl_height(no->left), avl_height(no->right));
-    
-    
 
-    return no;
-}
-*/
 template<typename Tkey>
 Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *p, Tkey key, Pessoa pes){         //insere um novo nó
 
@@ -371,6 +314,32 @@ Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *p, Tkey key, Pessoa pes){         
     return p; // 
 }
 
+template<typename Tkey>
+Node<Tkey>* avl<Tkey>::avl_intervalo(Node<Tkey> *no, Tkey key1, Tkey key2){  //imprime nós no intervalo
+
+    long int diferenca = abs(key2 - key1);
+    
+    if(no != NULL){
+
+    
+
+    avl_intervalo(no ->left,key1,key2);
+    
+    //cout << endl <<"diferenca " << diferenca << endl;
+    //cout << "key1 " << key1 << endl;
+    //cout << "key2 " << key2 << endl;
+    //cout << "no-key " << no->key << endl << endl;
+
+    if(key2 > key1 && no->key >= key2 - diferenca && no->key <= key2)
+        no->pes.imprime_csv();
+    else if(key1 > key2 && no->key >= key1 - diferenca && no->key <= key1)
+        no->pes.imprime_csv();
+    avl_intervalo(no ->right,key1,key2);
+    }
+    
+
+    return NULL;
+}
 
 
 
