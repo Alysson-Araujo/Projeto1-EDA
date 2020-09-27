@@ -29,12 +29,8 @@ private:
     Node<Tkey>* leftRight(Node<Tkey>* no);
 
     Node<Tkey>* rightLeft(Node<Tkey>* no);
-    
-    Node<Tkey>* fixup_node(Node<Tkey> *p, Tkey key);
-    
-    Node<Tkey>* allocateNode(Tkey key, Pessoa value);
 
-    int balance(Node<Tkey> *node);
+    // ######################################### ######## #########################################
 
     //Cria um novo nó que será incluido na Árvore AVL.
     Node<Tkey>* create_node(Tkey key, Pessoa pes);
@@ -42,13 +38,13 @@ private:
 public:
     
     avl(); //cria a árvore
-    ~avl();
+    ~avl(); // destrói a árvore
     
-    Node<Tkey>* clear(Node<Tkey>* no);
-    void search_repetido(Node<Tkey>* no, Tkey Key, Pessoa pess);
     //deletará todos os nós presente na arvore, passando a arvore a partir da sua raiz.
-    //Node<Tkey>* avl_delete(Node<Tkey> *no);
+    Node<Tkey>* clear(Node<Tkey>* no);
+    void search_repetido(Node<Tkey>* no, Tkey Key);
     
+
     // Impressão da árvore em pre-ordem (raiz->esq->dir).
     void avl_pre_ordem(Node<Tkey> *no);
     // Impressão da árvore em pos-ordem (esq->dir->raiz).
@@ -58,19 +54,12 @@ public:
 
     Node<Tkey>* avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes);
     
-    void mainInsert(Tkey key, Pessoa pes);
+    
 
     void avl_in_ordem(Node<Tkey> *no);
-    Tkey avl_search(Node<Tkey> *node,Tkey key);
+    void avl_search(Node<Tkey> *node,Tkey key);
 
-    void insertMain(Tkey key, Pessoa pes);
     
-    //retorna true caso a arvore esteja vazia e false caso contrário
-    bool avl_empty();
-
-
-
-    Node<Tkey>* get_raiz();
 
 };
 
@@ -81,6 +70,8 @@ avl<Tkey>::avl(){
 }
 
 
+// O método clear pecorre a árvore em sentido pré-ordem, deletando todos os nós no qual ele visita e, no fim, ele retorna nullptr
+// para Node raiz criado main.cpp, assim limpando por completo a árvore.
 template<typename Tkey>
 Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
     
@@ -88,7 +79,7 @@ Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
 
         no->left = clear(no->left);
         no->right = clear(no->right);
-        cout << "\nRemovendo chave " << no->key << endl;
+        cout << "\nRemovendo chave " << no->key;
         delete no;
 
     }
@@ -102,6 +93,8 @@ avl<Tkey>::~avl(){
 
 }
 
+//Método na qual vai criar um novo nó para a árvore. Nela será contida uma chave e um objeto Pessoa que contém todos os dados de uma
+// pessoa pega no arquivo data.csv. Vai retornar esse novo nó criado.
 template<typename Tkey>
 Node<Tkey>* avl<Tkey>::create_node(Tkey key, Pessoa pes){  
     Node<Tkey> *node = new Node<Tkey>;
@@ -112,12 +105,7 @@ Node<Tkey>* avl<Tkey>::create_node(Tkey key, Pessoa pes){
     node->height = 1;
     return node;
 }
-/*
-template<typename Tkey>
-void avl<Tkey>::mainInsert(Tkey key, Pessoa pes){
-    avl_insert(raiz, key, pes);
-}
-*/
+
 
 // ######################################### Rotações e max #########################################
 
@@ -142,11 +130,12 @@ Node<Tkey>* avl<Tkey>::leftRotation(Node<Tkey> *no){
         Node<Tkey> *aux = no->right;
         no->right = aux->left;
         aux->left = no;
-        // atualiza alturas dos nós
+        // ###### atualzará as alturas dos nós ######
         no->height = 1 + max(avl_height(no->left),
                             avl_height(no->right));
         aux->height = 1 + max(avl_height(aux->left),
                             avl_height(aux->right));
+        // ###### ############################ ######                    
         return aux; // nova raiz
 }
 
@@ -287,20 +276,12 @@ void avl<Tkey>::avl_in_ordem(Node<Tkey> *no){
 
 //############################################################
 
-//                Funções auxiliares
-/*
-template <typename Tkey>
-Node<Tkey>* avl<Tkey>::get_raiz(){
-    return raiz;
-}
-*/
-/*
-template<typename Tkey>    // retorna boleano, true caso a árvore esteja vazia
-bool avl<Tkey>::avl_empty(){
-    return( raiz == NULL);
-}
 
-*/
+
+
+
+
+
 
 template<typename Tkey>    //retorna a altura do nó, 0 caso a árvore esteja vazia
 int avl<Tkey>::avl_height(Node<Tkey> *no){
@@ -312,22 +293,23 @@ int avl<Tkey>::avl_height(Node<Tkey> *no){
 }
 
 template<typename Tkey>
-Tkey avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
+void avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
 
-    if(node == NULL)                            //retorna NULL se não encontrar
-        return NULL;
-
+    if(node == NULL){                            //retorna NULL se não encontrar
+        cout << "O seguinte CPF não foi encontrado:";
+        //return;
+    }
     if(key < node->key)
-        return avl_search(node->left, key);
+         avl_search(node->left, key);
 
     else if(key > node->key)
-        return avl_search(node->right, key);
+         avl_search(node->right, key);
     
-    else
+    else{
         node->pes.imprime_csv();
-        return node->key;
-
-
+            
+    }
+    //return key;
 }
 
 
@@ -379,7 +361,7 @@ Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *p, Tkey key, Pessoa pes){         
     else if (key >= p->key)
         p->right = avl_insert(p->right, key, pes);
     else
-        return p; // não permite chaves repetidas
+        return p; 
 
     // atualiza altura deste ancestral p
     p->height = 1 + std::max(avl_height(p->left), avl_height(p->right));
@@ -389,85 +371,35 @@ Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *p, Tkey key, Pessoa pes){         
     return p; // 
 }
 
-template<typename Tkey>
-Node<Tkey>* avl<Tkey>::fixup_node(Node<Tkey> *p, Tkey key){                    //testa o balanço e realiza rotação se necessario
-
-    int bal = balance(p); // obtém balanço de node
-    // caso 4(a)
-    if (bal < -1 && key < p->left->key)
-        return rightRotation(p);
-
-    // caso 4(b)
-    else if (bal < -1 && key >= p->left->key){
-        p->left = leftRotation(p->left);
-        return rightRotation(p);
-    }
-
-    // simétrico do caso 4(a)
-    else if (bal > 1 && key >= p->right->key)
-        return leftRotation(p);
-
-    // simétrico do caso 4(b)
-    else if (bal > 1 && key < p->right->key){
-
-        p->right = rightRotation(p->right);
-        return leftRotation(p);
-
-    }
-    return p;
-}
-
-template<typename Tkey>
-Node<Tkey>* avl<Tkey>::*allocateNode(Tkey key, Pessoa value){                 //aloca um novo node com os dados dos parâmetros
-
-    Node<Tkey> *node = new Node<Tkey>;
-    node->key = key;
-    node->value = value;
-    node->left = NULL;
-    node->right = NULL;
-    node->height = 1;
-    return node;
-}
-template <typename Tkey>
-int avl<Tkey>::balance(Node<Tkey> *node){                                   //retorna a diferença entre a altura dos filhos
-    if (node == NULL)
-        return 0;
-    return avl_height(node->right) - avl_height(node->left);
-}
 
 
 
 //############################################################
 
-/*
-Comentei pq ainda não sei se uso essa forma para deletar a árvore ou uso outra forma
 
-//Irá pecorrer toda a árvore, deletando todos os nós.
+
+//Como existem pessoas que podem ter nomes ou datas de nascimento repetidas, a busca de todas as pessoas que possuem tal nome ou data de 
+//nascimento iguais nas chaves dos nós vai significar em que elas podem está tanto na subárvore esquerda quanto na subárvore direita
+//da raiz devido as rotações feitas para deixar a árvore balanceada. Nesse caso precisaremos buscar em toda a árvore para pegar todos
+//os dados de uma ou mais pessoa(s) pelo seu nome ou sua data de nascimento. O motivo de fazermos isso é devido a testes nos quais
+// fizemos onde inserimos algumas chaves repetidas menores que a raiz em uma arvore avl, e as rotações para manter a árvore balanceada
+// chegou a mandar chaves repetidas da subárvore esquerda da raiz para a subárvore direita da raiz, mas mantendo o seu balanceamento. 
+// Para analizar melhor essa situação, fizemos a visualização da árvore em pré-ordem, pós-ordem e em in-ordem(ordem simétrica) e 
+// vimos que as três estavam mostrando as chaves dos nós de forma corretamente.
 template<typename Tkey>
-Node<Tkey>* avl_delete(Node<Tkey>* no){
-    if(no!=NULL){
-        no->left = avl_delete(no->left);
-        no->right = avl_delete(no->right);
-        std::cout << "excluindo o nó com chave " << no->key << " e com valor de " << no->value << std::endl;
-        delete no;
-    }
-    return nullptr;
-}
-*/
-template<typename Tkey>
-void avl<Tkey>::search_repetido(Node<Tkey>* no, Tkey key, Pessoa pess){
+void avl<Tkey>::search_repetido(Node<Tkey>* no, Tkey key){
     if (no != nullptr) {
         if(no->key == key){
             cout << "Chave " << no->key << endl;
             //no->pes.imprime_csv();
             no->pes.imprime_csv();
         
-            search_repetido(no ->left,key,pess);
-            search_repetido(no ->right, key, pess);
+            search_repetido(no ->left,key);
+            search_repetido(no ->right, key);
         }
         else{
-            search_repetido(no ->left,key,pess);
-            search_repetido(no ->right, key, pess);
+            search_repetido(no ->left,key);
+            search_repetido(no ->right, key);
         }
         
     }

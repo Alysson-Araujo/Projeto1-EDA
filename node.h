@@ -2,6 +2,8 @@
 #define NODE_H
 #include "pessoa.h"
 
+//Usamos a classe Node para usar seus atributos e criar nós da  árvore avl.
+// criamos 3 tipos de Node para atender as características das 3 árvores. 
 template<typename Tkey>
 class Node{
         public:
@@ -15,20 +17,3 @@ class Node{
 
 
 #endif
-/*
-template<typename Tkey>        //(raiz,esq,dir)
-void avl<Tkey>::avl_pre_ordem(Node<Tkey>* root){
-    stack <Node<Tkey>*> pilha;
-    pilha.push(root); // empilha raiz
-    while (!pilha.empty()) {
-        Node<Tkey>* node = pilha.top();
-        pilha.pop();
-        if(node != nullptr) {
-            cout << "chave: " << node->key << endl; // visita raiz
-                pilha.push( node->right );
-                pilha.push( node->left );
-        }
-    }
-
-
-*/

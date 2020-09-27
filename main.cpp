@@ -26,9 +26,9 @@ void imprime_menu(){                                    //imprime o menu
 
 int main(){
     
-    Pessoa eu("123.459.789-10","João", "Almir", "1/10/2000", "Guarulhos");
+    //Pessoa eu("123.459.789-10","João", "Almir", "1/10/2000", "Guarulhos");
     
-    cout << eu.converte_ano("1/1/2000") << endl;
+    //cout << eu.converte_ano("1/1/2000") << endl;
     
     
     //criação das arvores
@@ -40,35 +40,50 @@ int main(){
     Node<string>* raiz_nome=NULL;
     Node<long int>* raiz_data=NULL;
 
+    //Vamos usar um vector para pegar os dados das pessoas separadamente e colocar seus dados nela e, em seguida,
+    //colocar em um objeto pessoa para, assim, colocar em um nó da árvore
+    /**dados[0] = CPF
+     * dados[1] = Primero nome
+     * dados[2] = Sobrenome
+     * dados[3] = data de nascimento
+     * dados[4] = Cidade
+     */
     vector<string> dados;
     
+    // Vamos usar o objeto Pessoa chamado pes para colocar as informações de cada pessoa em cada nó presente a árvore
+    // ...
     Pessoa pes;
 
+    // A string linha ficará responsável em receber linha por linha do arquivo contendo dados de uma pessoa de cada vez. 
     string linha;
 
-        
-    bool nPegaPrimeiraLinha1 = true;
+    //Eu (Alysson) observei que quando estávamos adicionando os dados das pessoas, vi que estava sendo adicionado, também, tipos de cada 
+    // coluna da tabela, sendo elas: NationalID, GivenName, Surname, Birthday, City.
+    // Então para evitar que os nomes dos tipos das colunas fossem adicionadas nas árvores, eu criei 3 bool chamados de nPegaPrimeiraLinha1,
+    // 
+    bool nPegaPrimeiraLinha = true;
 
 
 
     fstream fin;
     vector<string> row;
     string line;
-    //fin.open("data.csv", ios::in);
+    
+    fin.open("data.csv", ios::in);
 
 
 
     // construção da árvore avl, onde cada no tem chave sendo o cpf da pessoa e o seus dados em um objeto pessoa
-   /*if(!fin.is_open()){
+   if(!fin.is_open()){
         throw std::runtime_error ("Não é facin po");
         }
     
     
     while( getline(fin, line)){
         
-        if(nPegaPrimeiraLinha1==true){
+        if(nPegaPrimeiraLinha==true){
             getline(fin,line);
-            nPegaPrimeiraLinha1 = false;
+            nPegaPrimeiraLinha = false;
         }
         row.clear();
         stringstream s_stream(line);
@@ -87,10 +102,16 @@ int main(){
     //Fechando o arquivo data.csv
     fin.close();
     
-    arv_cpf.clear(raiz_cpf);
-    raiz_cpf = nullptr;
-    bool nPegaPrimeiraLinha2 = true;
+    nPegaPrimeiraLinha = true;
+    //arv_cpf.avl_in_ordem(raiz_cpf);
+    //cout << "#################################################################################" << endl;
+//
+    //
+    //arv_cpf.clear(raiz_cpf);
+    //raiz_cpf = nullptr;
     
+    //bool nPegaPrimeiraLinha2 = true;
+
     fin.open("data.csv", ios::in);
 
 
@@ -104,9 +125,9 @@ int main(){
     
     while( getline(fin, line)){
         
-        if(nPegaPrimeiraLinha2==true){
+        if(nPegaPrimeiraLinha==true){
             getline(fin,line);
-            nPegaPrimeiraLinha2 = false;
+            nPegaPrimeiraLinha = false;
         }
         row.clear();
         stringstream s_stream(line);
@@ -124,16 +145,20 @@ int main(){
     }
 
     //arv_nome.avl_in_ordem(raiz_nome);
-    //cout << arv_nome.avl_search(raiz_nome, "Kai") << endl;
-    //Fechando o arquivo data.csv
+    //cout << "#################################################################################" << endl;
+    
+    ////Fechando o arquivo data.csv
     fin.close();
+    
+    //arv_nome.clear(raiz_nome);
+    nPegaPrimeiraLinha = true;
     //arv_nome.search_repetido(raiz_nome, "Kai", raiz_nome->pes);
     //arv_nome().
     //arv_nome.avl_in_ordem(raiz_nome);
-
-    */
+ 
     
-    bool nPegaPrimeiraLinha3 = true;
+    
+    //bool nPegaPrimeiraLinha3 = true;
     
     fin.open("data.csv", ios::in);
 
@@ -148,9 +173,9 @@ int main(){
     
     while( getline(fin, line)){
         
-        if(nPegaPrimeiraLinha3==true){
+        if(nPegaPrimeiraLinha==true){
             getline(fin,line);
-            nPegaPrimeiraLinha3 = false;
+            nPegaPrimeiraLinha = false;
         }
         row.clear();
         stringstream s_stream(line);
@@ -179,12 +204,16 @@ int main(){
     //arv_nome.avl_in_ordem(raiz_nome);
     //cout << arv_nome.avl_search(raiz_nome, "Kai") << endl;
     //Fechando o arquivo data.csv
+    //cout << "data no formato ano/mes/dia" << endl;
+    //arv_data.avl_in_ordem(raiz_data);
+    //cout << "#################################################################################" << endl;
+    
     fin.close();
     
-    arv_data.avl_in_ordem(raiz_data);
-
-    arv_data.clear(raiz_data);
-    raiz_data = nullptr;
+     //arv_data.avl_in_ordem(raiz_data);
+ 
+    //arv_data.clear(raiz_data);
+    //raiz_data = nullptr;
 
     
     
@@ -199,71 +228,122 @@ int main(){
 
 
 
-    /*
+    
 
     bool menu_ativo = true;                         //deixa o menu ativo
 
-    long int cpf;                                   //
-    string nome, sobrenome;                         //variaveis para usar no menu;
-    int data_dia, data_mes, data_ano;               //
+    //long int cpf;                                   //
+    //string nome, sobrenome;                         //variaveis para usar no menu;
+    //int data_dia, data_mes, data_ano;               //
 
-    int escolha;                                    //para escolher no menu
-    int ordem;                                      //para escolher a arvore da ordem
+    //int escolha;                                    //para escolher no menu
+    //int ordem;                                      //para escolher a arvore da ordem
 
-  
+    int num;
+    //cpf
+    long int cpf_user;
 
-
-
-
-    while(menu_ativo == true){
-
-        imprime_menu();
-
-        cin >> escolha;
-        
-        switch (escolha){
-        
-        //Mas não pede para inserir assim :/
-        case 1:                             //Consulta pelo CPF
-            cout << insira o cpf
-                
-            
-            break;
-
-        case 2:                             //Consulta pelo nome
-            cout << "insira o nome da pessoa que quer  \n";
-            cin >> nome;
-
-
-            break;
-        
-        case 3:                             //Consulta pelo intervalo data nasc
-            cout << ""
-            
-
-        
-            
-
-
-            cout << cpf << " removido\n";
-            break;
-
-        case 4:
-            
-            
-            break;
-
-        default:                           //numero invalido
-
-            cout << endl <<  "\t \t>>Número inválido<<" << endl;
-
-            break;
-        
-        }
+    //nome
+    string nome_user;
     
+    //data
+    string data_user_i, data_user_f;
+    long int peso_i, peso_f;
 
+
+    while (menu_ativo){
+        imprime_menu();
+        cin >> num;
+        switch (num)
+        {
+        case 1:
+            
+            cout << "Digite o cpf que deseja buscar no seguinte formato: xxxxxxxxxxx | exemplo: 38862473257 " << "\n"
+            << "O programa aceita apenas os números do cpf!" << endl;
+            
+            cin >> cpf_user;
+            arv_cpf.avl_search(raiz_cpf, cpf_user);
+            
+            break;
+        
+        case 2:
+            cout <<"Escreva o primeiro nome das pessoas que deseja buscar: ";
+            cin >> nome_user;   
+            arv_nome.search_repetido(raiz_nome, nome_user);
+            break;
+        case 3:
+            cout <<"Digite o mes, dia e ano no formato MM/DD/AAAA do intervalo inicial\n";
+            cin >> data_user_i;
+            cout <<"Digite o mes, dia e ano no formato MM/DD/AAAA do intervalo final\n";
+            cin >> data_user_f;
+
+            peso_i = pes.converte_ano(data_user_i) * 1000 + pes.converte_mes(data_user_i) * 100 + pes.converte_dia(data_user_i);
+            peso_f = pes.converte_ano(data_user_f) * 1000 + pes.converte_mes(data_user_f) * 100 + pes.converte_dia(data_user_f);
+            
+            
+            break;
+           
+        case 4:
+
+            break;
+
+            
+        case 0:
+            menu_ativo = false;
+            break;
+        default:
+            cout <<"Por favor, digite um dos valores descritos no menu." << endl;
+            break;
+        }
     }
-*/
+    
+    arv_cpf.clear(raiz_cpf);
+    arv_data.clear(raiz_data);
+    arv_nome.clear(raiz_nome);
+    
+    raiz_cpf = nullptr;
+    raiz_data = nullptr;
+    raiz_nome = nullptr;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     
