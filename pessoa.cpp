@@ -3,9 +3,9 @@
 #include <string>
 #include<sstream>
 using namespace std;;
-
+    //Contrutor
     Pessoa::Pessoa(){}
-
+    //Contrutor
     Pessoa::Pessoa(string cpf, string nome, string sobrenome, string dataNascimento, string cidade_nasc){
 
         this->cpf = cpf;
@@ -14,7 +14,7 @@ using namespace std;;
         this->dataNascimento = dataNascimento;
         this->cidade_nasc = cidade_nasc;
     }
-    // Pedir para modificar
+    //Imprime todos os dados da pessoa
     void Pessoa::imprime_csv(){
 
         cout << cpf<< ","
@@ -25,7 +25,7 @@ using namespace std;;
 
     }
 
-
+    //recebe cpf, remove os pontos e traço, e retorna em long int
     long int Pessoa::to_long_int(string cpf){
         
         int index = 0;
@@ -45,11 +45,11 @@ using namespace std;;
 
     }
 
-
+    //converte uma string data e retorna somente o mes como long int
     long int Pessoa::converte_mes(string x){
         char nova[2];
 
-        if(x[1] == '/')
+        if(x[1] == '/')         //se o segundo caractere for barra
             nova[0] = x[0];
         else{
             nova[0] = x[0];
@@ -62,7 +62,7 @@ using namespace std;;
             return -1;              //indica erro na quantidade de digitos
     }
 
-    
+    //converte uma string data e retorna somente o dia como long int
     long int Pessoa::converte_dia(string x){
 
         char nova[2];
@@ -89,7 +89,7 @@ using namespace std;;
     }
 
     
-    
+   //converte uma string data e retorna somente o ano como long int
    long int Pessoa::converte_ano(string x){
         char nova[4];   
 
@@ -117,35 +117,7 @@ using namespace std;;
         else
             return -1; //indica erro na quantidade de digitos
     }
-    /*
-    fstream fin;
-    fin.open("data.csv", ios::in);
-    vector<string> row;
-    std::string line = "7/19/1989";
-  
-    fin.open("datasTeste.csv", ios::in);
-    std::stringstream s_stream(line);
-        
-        
     
-   while( getline(fin, line)){
-        
-        
-        row.clear();
-        stringstream s_stream(line);
-        while( s_stream.good() ){
-            string substr;
-            getline(s_stream, substr, '/');
-            row.push_back(substr);
-        }
-        for (size_t i = 0; i < row.size(); i++)
-        {
-            cout << row[i] << endl;
-        }
-        
-        
-        
-    */
 
     //gets
     string Pessoa::get_cpf(){

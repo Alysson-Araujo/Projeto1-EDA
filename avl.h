@@ -22,13 +22,13 @@ private:
     Node<Tkey>* avl_balance(Node<Tkey> *no, Tkey key);
     // ######################################### Rotações #########################################
 
-    Node<Tkey> *rightRotation(Node<Tkey> *no);
+    Node<Tkey> *rightRotation(Node<Tkey> *no); //rotação simples a direita
 
-    Node<Tkey> *leftRotation(Node<Tkey> *no);
+    Node<Tkey> *leftRotation(Node<Tkey> *no);  //rotação simples a esquerda
 
-    Node<Tkey>* leftRight(Node<Tkey>* no);
+    Node<Tkey>* leftRight(Node<Tkey>* no);    //rotação dupla a direta
 
-    Node<Tkey>* rightLeft(Node<Tkey>* no);
+    Node<Tkey>* rightLeft(Node<Tkey>* no);    //rotação dupla a esquerda
 
     // ######################################### ######## #########################################
 
@@ -50,24 +50,26 @@ public:
     // Impressão da árvore em pos-ordem (esq->dir->raiz).
     void avl_pos_ordem(Node<Tkey> *no);
     // Impressão da árvore no estilo de ordemmain.cpp:
-    // Faz a inserção de um nó na árvore AVL, onde nesse nó tera uma chave um valor do tipo string
 
+    // Faz a inserção de um nó na árvore AVL, onde nesse nó tera uma chave um valor do tipo string
     Node<Tkey>* avl_insert(Node<Tkey> *no, Tkey key, Pessoa pes);
     
+    //Percorre toda a arvore em ordem imprimindo os dados da pessoa no intervalo entre key1 e key2
     Node<Tkey>* avl_intervalo(Node<Tkey> *no, Tkey key1, Tkey key2);
 
+    //Percurso em ordem
     void avl_in_ordem(Node<Tkey> *no);
-    void avl_search(Node<Tkey> *node,Tkey key);
+
+    //Procura um nó e todos os dados da passoa
+    void avl_imprime_csv(Node<Tkey> *node,Tkey key);
 
     
 
 };
 
-
+//Contrutor
 template<typename Tkey>
-avl<Tkey>::avl(){
-
-}
+avl<Tkey>::avl(){}
 
 
 // O método clear pecorre a árvore em sentido pré-ordem, deletando todos os nós no qual ele visita e, no fim, ele retorna nullptr
@@ -83,12 +85,11 @@ Node<Tkey>* avl<Tkey>::clear(Node<Tkey> *no){
 
     }
     return nullptr;
-
 }
 
+//Destrutor
 template<typename Tkey>
 avl<Tkey>::~avl(){
-    //clear(raiz);
 
 }
 
@@ -241,11 +242,9 @@ Node<Tkey>* avl<Tkey>::avl_balance(Node<Tkey> *no, Tkey key){
 
 //##############################################################
 
-//      Funções para percorrer e imprimir a árvore em ordem definida
 
-
-
-template<typename Tkey>       //(esq,raiz,dir)
+//in ordem                  //(esq,raiz,dir)
+template<typename Tkey>       
 void avl<Tkey>::avl_in_ordem(Node<Tkey> *no){
     if (no != nullptr) {
         avl_in_ordem(no ->left);
@@ -274,20 +273,20 @@ int avl<Tkey>::avl_height(Node<Tkey> *no){
 }
 
 template<typename Tkey>
-void avl<Tkey>::avl_search(Node<Tkey> *node, Tkey key){
+void avl<Tkey>::avl_imprime_csv(Node<Tkey> *node, Tkey key){
 
     if(node == NULL){                            //retorna NULL se não encontrar
         cout << "O seguinte CPF não foi encontrado: " << key << endl;
         return;
     }
-    if(key < node->key)
-         avl_search(node->left, key);
+    if(key < node->key)                          //chama recursivamente para esquerda se key for menor que key da chave esquerda
+         avl_imprime_csv(node->left, key);
 
     else if(key > node->key)
-         avl_search(node->right, key);
+         avl_imprime_csv(node->right, key);       //chama recursivamente para direita se key for mair que key da chave direita
     
     else{
-        node->pes.imprime_csv();
+        node->pes.imprime_csv();                  //Imprime todos os dados ao encontrar
             
     }
 }
@@ -314,25 +313,18 @@ Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *p, Tkey key, Pessoa pes){         
     return p; // 
 }
 
-template<typename Tkey>
+template<typename Tkey> //Percorre toda a arvore e imprime o intervalo entre key1 e key2
 Node<Tkey>* avl<Tkey>::avl_intervalo(Node<Tkey> *no, Tkey key1, Tkey key2){  //imprime nós no intervalo
 
-    long int diferenca = abs(key2 - key1);
+    long int diferenca = abs(key2 - key1); //diferença entre key1 e key2
     
-    if(no != NULL){
+    if(no != NULL){ //se a chave não for nula
 
-    
 
     avl_intervalo(no ->left,key1,key2);
-    
-    //cout << endl <<"diferenca " << diferenca << endl;
-    //cout << "key1 " << key1 << endl;
-    //cout << "key2 " << key2 << endl;
-    //cout << "no-key " << no->key << endl << endl;
-
-    if(key2 > key1 && no->key >= key2 - diferenca && no->key <= key2)
+    if(key2 > key1 && no->key >= key2 - diferenca && no->key <= key2) //se key 2 for maior que key 1
         no->pes.imprime_csv();
-    else if(key1 > key2 && no->key >= key1 - diferenca && no->key <= key1)
+    else if(key1 > key2 && no->key >= key1 - diferenca && no->key <= key1) //se key 1 for maior que key 2
         no->pes.imprime_csv();
     avl_intervalo(no ->right,key1,key2);
     }
@@ -345,16 +337,18 @@ Node<Tkey>* avl<Tkey>::avl_intervalo(Node<Tkey> *no, Tkey key1, Tkey key2){  //i
 
 //############################################################
 
+                    // MODIFICAAAAAAAAAAAAAAAAR
 
 
-//Como existem pessoas que podem ter nomes ou datas de nascimento repetidas, a busca de todas as pessoas que possuem tal nome ou data de 
-//nascimento iguais nas chaves dos nós vai significar em que elas podem está tanto na subárvore esquerda quanto na subárvore direita
-//da raiz devido as rotações feitas para deixar a árvore balanceada. Nesse caso precisaremos buscar em toda a árvore para pegar todos
-//os dados de uma ou mais pessoa(s) pelo seu nome ou sua data de nascimento. O motivo de fazermos isso é devido a testes nos quais
-// fizemos onde inserimos algumas chaves repetidas menores que a raiz em uma arvore avl, e as rotações para manter a árvore balanceada
-// chegou a mandar chaves repetidas da subárvore esquerda da raiz para a subárvore direita da raiz, mas mantendo o seu balanceamento. 
-// Para analizar melhor essa situação, fizemos a visualização da árvore em pré-ordem, pós-ordem e em in-ordem(ordem simétrica) e 
-// vimos que as três estavam mostrando as chaves dos nós de forma corretamente.
+/* 
+Como existem pessoas que podem ter nomes repetidos, a busca de todas as pessoas que possuem tais nomes iguais nas chaves dos nós vai 
+significar em que elas podem está tanto na subárvore esquerda quanto na subárvore direita
+da raiz devido as rotações feitas para deixar a árvore balanceada. Nesse caso precisaremos buscar em toda a árvore para pegar todos
+os dados de uma ou mais pessoa(s) pelo seu nome . O motivo de fazermos isso é devido a testes nos quais
+fizemos onde inserimos algumas chaves repetidas menores que a raiz em uma arvore avl, e as rotações para manter a árvore balanceada
+chegou a mandar chaves repetidas da subárvore esquerda da raiz para a subárvore direita da raiz, mas mantendo o seu balanceamento. 
+Para analizar melhor essa situação, fizemos a visualização da árvore em pré-ordem, pós-ordem e em in-ordem(ordem simétrica) e 
+vimos que as três estavam mostrando as chaves dos nós de forma corretamente.*/
 template<typename Tkey>
 void avl<Tkey>::search_repetido(Node<Tkey>* no, Tkey key){
     if (no != nullptr) {

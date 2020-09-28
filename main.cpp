@@ -51,9 +51,9 @@ int main(){
      */
     vector<string> dados;
     
-    // Vamos usar o objeto Pessoa chamado pes para colocar as informações de cada pessoa em cada nó presente a árvore
+    // Vamos usar o objeto Pessoa chamado pessoa para colocar as informações de cada pessoa em cada nó presente a árvore
     // ...
-    Pessoa pes;
+    Pessoa pessoa;
 
     // A string linha ficará responsável em receber linha por linha do arquivo contendo dados de uma pessoa de cada vez. 
     string linha;
@@ -66,180 +66,149 @@ int main(){
 
 
 
-    fstream fin;
-    vector<string> row;
-    string line;
+    fstream arquivo;
     
-    fin.open("data.csv", ios::in);
+   
+    
+    arquivo.open("data.csv", ios::in);
 
 
 
     // construção da árvore avl, onde cada no tem chave sendo o cpf da pessoa e o seus dados em um objeto pessoa
-   if(!fin.is_open()){
+   if(!arquivo.is_open()){
         throw std::runtime_error ("Não é facin po");
         }
     
     
-    while( getline(fin, line)){
+    while( getline(arquivo, linha)){
         
         if(nPegaPrimeiraLinha==true){
-            getline(fin,line);
+            getline(arquivo,linha);
             nPegaPrimeiraLinha = false;
         }
-        row.clear();
-        stringstream s_stream(line);
+        dados.clear();
+        stringstream s_stream(linha);
         while( s_stream.good() ){
             string substr;
             getline(s_stream, substr, ',');
-            row.push_back(substr);
+            dados.push_back(substr);
         }
         
         
-        Pessoa teste(row[0],row[1],row[2],row[3],row[4]);
-        raiz_cpf = arv_cpf.avl_insert(raiz_cpf, teste.to_long_int(row[0]) ,teste);
+            pessoa.set_cpf(dados[0]);
+            pessoa.set_nome(dados[1]);
+            pessoa.set_sobrenome(dados[2]);
+            pessoa.set_dataNascimento(dados[3]);
+            pessoa.set_cidade_nasc(dados[4]);
+        raiz_cpf = arv_cpf.avl_insert(raiz_cpf, pessoa.to_long_int(dados[0]) ,pessoa);
         
     }
   
     //Fechando o arquivo data.csv
-    fin.close();
+    arquivo.close();
     
     nPegaPrimeiraLinha = true;
-    //arv_cpf.avl_in_ordem(raiz_cpf);
-    //cout << "#################################################################################" << endl;
-//
-    //
-    //arv_cpf.clear(raiz_cpf);
-    //raiz_cpf = nullptr;
     
-    //bool nPegaPrimeiraLinha2 = true;
 
-    fin.open("data.csv", ios::in);
+    arquivo.open("data.csv", ios::in);
 
 
 
     // construção da árvore avl, onde cada no tem chave sendo o primeiro nome da pessoa e os seus dados em um objeto pessoa
-    if(!fin.is_open()){
+    if(!arquivo.is_open()){
         throw std::runtime_error ("Error");
         }
     
     
     
-    while( getline(fin, line)){
+    while( getline(arquivo, linha)){
         
         if(nPegaPrimeiraLinha==true){
-            getline(fin,line);
+            getline(arquivo,linha);
             nPegaPrimeiraLinha = false;
         }
-        row.clear();
-        stringstream s_stream(line);
+        dados.clear();
+        stringstream s_stream(linha);
         while( s_stream.good() ){
             string substr;
             getline(s_stream, substr, ',');
-            row.push_back(substr);;
+            dados.push_back(substr);;
             
         }
         
-    
-        Pessoa pessoa_para_chave_nome(row[0],row[1],row[2],row[3],row[4]);
-        raiz_nome = arv_nome.avl_insert(raiz_nome,row[1],pessoa_para_chave_nome);
+        pessoa.set_cpf(dados[0]);
+        pessoa.set_nome(dados[1]);
+        pessoa.set_sobrenome(dados[2]);
+        pessoa.set_dataNascimento(dados[3]);
+        pessoa.set_cidade_nasc(dados[4]);
+        
+        
+        raiz_nome = arv_nome.avl_insert(raiz_nome,dados[1],pessoa);
         
     }
 
-    //arv_nome.avl_in_ordem(raiz_nome);
-    //cout << "#################################################################################" << endl;
-    
+
     ////Fechando o arquivo data.csv
-    fin.close();
+    arquivo.close();
     
-    //arv_nome.clear(raiz_nome);
+
     nPegaPrimeiraLinha = true;
-    //arv_nome.search_repetido(raiz_nome, "Kai", raiz_nome->pes);
-    //arv_nome().
-    //arv_nome.avl_in_ordem(raiz_nome);
+
  
     
     
     //bool nPegaPrimeiraLinha3 = true;
     
-    fin.open("data.csv", ios::in);
+    arquivo.open("data.csv", ios::in);
 
     
 
     // construção da árvore avl, onde cada no tem chave sendo o primeiro nome da pessoa e os seus dados em um objeto pessoa
-    if(!fin.is_open()){
+    if(!arquivo.is_open()){
         throw std::runtime_error ("Error");
         }
     
     
     
-    while( getline(fin, line)){
+    while( getline(arquivo, linha)){
         
         if(nPegaPrimeiraLinha==true){
-            getline(fin,line);
+            getline(arquivo,linha);
             nPegaPrimeiraLinha = false;
         }
-        row.clear();
-        stringstream s_stream(line);
+        dados.clear();
+        stringstream s_stream(linha);
         while( s_stream.good() ){
             string substr;
             getline(s_stream, substr, ',');
-            row.push_back(substr);
+            dados.push_back(substr);
             
         }
         
     
-        Pessoa x(row[0],row[1],row[2],row[3],row[4]);
-        //cout << pessoa_para_chave_data.converte_ano(row[3]) << endl;
-        //cout << pessoa_para_chave_data.converte_mes(row[3]) << endl;
-        //cout << pessoa_para_chave_data.converte_dia(row[3]) << endl;
-        //cout << row[3] << endl;
+        pessoa.set_cpf(dados[0]);
+        pessoa.set_nome(dados[1]);
+        pessoa.set_sobrenome(dados[2]);
+        pessoa.set_dataNascimento(dados[3]);
+        pessoa.set_cidade_nasc(dados[4]);
         
-    
-        
-        long int somaTUDO = x.converte_ano(row[3]) * 10000 + x.converte_mes(row[3]) * 100 + x.converte_dia(row[3]);
+ 
 
-        raiz_data = arv_data.avl_insert(raiz_data,somaTUDO ,x);
+        
+        long int somaTUDO = pessoa.converte_ano(dados[3]) * 10000 + pessoa.converte_mes(dados[3]) * 100 + pessoa.converte_dia(dados[3]);
+
+        raiz_data = arv_data.avl_insert(raiz_data,somaTUDO ,pessoa);
         
     }
 
-    //arv_nome.avl_in_ordem(raiz_nome);
-    //cout << arv_nome.avl_search(raiz_nome, "Kai") << endl;
-    //Fechando o arquivo data.csv
-    //cout << "data no formato ano/mes/dia" << endl;
-    //arv_data.avl_in_ordem(raiz_data);
-    //cout << "#################################################################################" << endl;
     
-    fin.close();
+    arquivo.close();
     
-     //arv_data.avl_in_ordem(raiz_data);
- 
-    //arv_data.clear(raiz_data);
-    //raiz_data = nullptr;
-
-    
-    
-
-
-
-
-    //cout << endl;
-    //arv_data.avl_in_ordem(raiz_data);
-
-
-
-
-
-    
-
+  
     bool menu_ativo = true;                         //deixa o menu ativo
 
-    //long int cpf;                                   //
-    //string nome, sobrenome;                         //variaveis para usar no menu;
-    //int data_dia, data_mes, data_ano;               //
 
-    //int escolha;                                    //para escolher no menu
-    //int ordem;                                      //para escolher a arvore da ordem
-
+    //Opção do menu
     int num;
 
     //cpf
@@ -252,7 +221,7 @@ int main(){
     string data_user_i, data_user_f;
     long int peso_i, peso_f;
 
-    //para escolher a arvore para percorrer inteira
+    //escolha da arvore para percorrer em ordem
     int escolha_arvore;
 
 
@@ -262,56 +231,56 @@ int main(){
         cin >> num;
         switch (num)
         {
-        case 1:
+        case 1: //Pesquisa pelo CPF
             
             cout << "Digite o cpf que deseja buscar no seguinte formato: xxxxxxxxxxx | exemplo: 38862473257 " << "\n"
             << "O programa aceita apenas os números do cpf!" << endl;
             
             cin >> cpf_user;
-            arv_cpf.avl_search(raiz_cpf, cpf_user);
+            arv_cpf.avl_imprime_csv(raiz_cpf, cpf_user);
             
             break;
         
-        case 2:
+        case 2: //Pesquisa pelo Nome
             cout <<"Escreva o primeiro nome das pessoas que deseja buscar: ";
             cin >> nome_user;   
             arv_nome.search_repetido(raiz_nome, nome_user);
             break;
             
-        case 3:
+        case 3: //Pesquisa pelo Intervalo da data de nasc
             cout <<"Digite o mes, dia e ano respectivamente no formato MM/DD/AAAA do intervalo\n";
             cin >> data_user_i;
             cout <<"Digite o mes, dia e ano respectivamente no formato MM/DD/AAAA do outro intervalo\n";
             cin >> data_user_f;
 
-
-            peso_i = pes.converte_ano(data_user_i) * 10000 + pes.converte_mes(data_user_i) * 100 + pes.converte_dia(data_user_i);
-            peso_f = pes.converte_ano(data_user_f) * 10000 + pes.converte_mes(data_user_f) * 100 + pes.converte_dia(data_user_f);
+            //Conversão das datas de string para long int
+            peso_i = pessoa.converte_ano(data_user_i) * 10000 + pessoa.converte_mes(data_user_i) * 100 + pessoa.converte_dia(data_user_i);
+            peso_f = pessoa.converte_ano(data_user_f) * 10000 + pessoa.converte_mes(data_user_f) * 100 + pessoa.converte_dia(data_user_f);
 
             if(peso_i < 0 || peso_f < 0){
-                cout << endl << "\t\t>>> FORMATO DE DATA INVALIDO <<<\n";
+                cout << endl << "\t\t>>> FORMATO DE DATA INVALIDO <<<\n";  //Erro caso o numero de caracteres for diferente do formato
             }
 
 
             arv_data.avl_intervalo(raiz_data, peso_i, peso_f);
             break;
            
-        case 4:
+        case 4: //Imprime todos os dados em ordem de uma arvore escolhida
             cout << "\tinsira a arvore que quer percorrer\n1:CPF 2:Nome 3: Data de nasc\n";
             cin >> escolha_arvore;
 
             switch (escolha_arvore)
             {
             case 1:
-                arv_cpf.avl_in_ordem(raiz_cpf);
+                arv_cpf.avl_in_ordem(raiz_cpf);     //Imprime todos os dados da arvore CPF
                 break;
 
             case 2:
-                arv_nome.avl_in_ordem(raiz_nome);
+                arv_nome.avl_in_ordem(raiz_nome);   //Imprime todos os dados da arvore nome
                 break;
 
             case 3:
-                arv_data.avl_in_ordem(raiz_data);
+                arv_data.avl_in_ordem(raiz_data);   //Imprime todos os dados da arvore data
                 break;
             
             default:

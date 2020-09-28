@@ -15,7 +15,7 @@ class Pessoa{
         string cidade_nasc;  // cidade onde nasceu
 
     public:               
-        Pessoa();           //
+        Pessoa();           //Contrutor
         Pessoa(string cpf, string nome, string sobrenome, string dataNascimento, string cidade_nasc);  //construtor
 
         void imprime_csv(); //imprime todos os dados da pessoa separado por virgula
@@ -23,9 +23,9 @@ class Pessoa{
         
         long int to_long_int(string cpf); //recebe string e retorna long int
         
-        long int converte_dia(string x);
-        long int converte_mes(string x);
-        long int converte_ano(string x);
+        long int converte_dia(string x); //converte uma string data e retorna somente o dia como long int
+        long int converte_mes(string x); //converte uma string data e retorna somente o mes como long int
+        long int converte_ano(string x); //converte uma string data e retorna somente o ano como long int
 
         //gets
         string get_cpf();
