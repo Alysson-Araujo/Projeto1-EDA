@@ -300,14 +300,13 @@ int main(){
             break;
         }
     }
+    //arv_cpf.clear(raiz_cpf);
+    //arv_data.clear(raiz_data);
+    //arv_nome.clear(raiz_nome);
     
-    arv_cpf.clear(raiz_cpf);
-    arv_data.clear(raiz_data);
-    arv_nome.clear(raiz_nome);
-    
-    raiz_cpf = nullptr;
-    raiz_data = nullptr;
-    raiz_nome = nullptr;
+    raiz_cpf = arv_cpf.clear(raiz_cpf);
+    raiz_data = arv_data.clear(raiz_data);
+    raiz_nome = arv_nome.clear(raiz_nome);
 
 
     return 0;

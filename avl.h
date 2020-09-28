@@ -313,6 +313,7 @@ Node<Tkey>* avl<Tkey>::avl_insert(Node<Tkey> *p, Tkey key, Pessoa pes){         
     return p; // 
 }
 
+
 template<typename Tkey> //Percorre toda a arvore e imprime o intervalo entre key1 e key2
 Node<Tkey>* avl<Tkey>::avl_intervalo(Node<Tkey> *no, Tkey key1, Tkey key2){  //imprime nós no intervalo
 
@@ -337,7 +338,7 @@ Node<Tkey>* avl<Tkey>::avl_intervalo(Node<Tkey> *no, Tkey key1, Tkey key2){  //i
 
 //############################################################
 
-                    // MODIFICAAAAAAAAAAAAAAAAR
+                    
 
 
 /* 
